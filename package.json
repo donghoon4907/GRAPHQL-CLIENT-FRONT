@@ -1,0 +1,60 @@
+{
+  "name": "cms",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "webpack-dev-server --config webpack.config.development.js",
+    "prebuild": "rimraf dist",
+    "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.production.js"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "autoprefixer": "^9.7.6",
+    "babel-loader": "^8.1.0",
+    "cross-env": "^7.0.2",
+    "css-loader": "^3.5.2",
+    "dotenv-webpack": "^1.7.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "html-webpack-plugin": "^4.2.0",
+    "isomorphic-unfetch": "^3.0.0",
+    "postcss-loader": "^3.0.0",
+    "react-hot-loader": "^4.12.20",
+    "redux-devtools-extension": "^2.13.8",
+    "rimraf": "^3.0.2",
+    "style-loader": "^1.1.4",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "dependencies": {
+    "@apollo/react-hooks": "^3.1.5",
+    "@pathofdev/react-tag-input": "^1.0.7",
+    "apollo-boost": "^0.4.9",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
+    "graphql": "^15.1.0",
+    "moment": "^2.24.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-autosize-textarea": "^7.0.0",
+    "react-bootstrap": "^1.0.0",
+    "react-datepicker": "^2.14.1",
+    "react-dom": "^16.13.1",
+    "react-helmet": "^6.1.0",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-toastify": "^5.5.0",
+    "styled-components": "^5.1.0",
+    "styled-reset": "^4.1.6"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ]
+}
