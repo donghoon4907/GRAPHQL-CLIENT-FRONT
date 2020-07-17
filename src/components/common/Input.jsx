@@ -3,13 +3,18 @@ import style from "styled-components";
 import PropTypes from "prop-types";
 
 const Container = style.input`
-    border: 0;
-    border: ${props => props.theme.boxBorder};
-    border-radius: ${props => props.theme.borderRadius};
-    background: ${props => props.theme.bgColor};
-    height: 35px;
-    padding: 0px 15px;
-    font-size: 12px;
+  border: 0;
+  border: ${(props) => props.theme.boxBorder};
+  border-radius: ${(props) => props.theme.borderRadius};
+  background: ${(props) => props.theme.bgColor};
+  width: 100%;
+  height: 35px;
+  padding: 0px 15px;
+  font-size: 12px;
+  
+  &:focus {
+    outline: none;
+  }
 `;
 
 function Input({
@@ -17,8 +22,7 @@ function Input({
   required = true,
   value,
   onChange,
-  type = "text",
-  className
+  type = "text"
 }) {
   return (
     <Container
@@ -27,7 +31,6 @@ function Input({
       value={value}
       onChange={onChange}
       type={type}
-      className={className}
     />
   );
 }
@@ -35,7 +38,7 @@ function Input({
 export default Input;
 
 Input.propTypes = {
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
   required: PropTypes.bool,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

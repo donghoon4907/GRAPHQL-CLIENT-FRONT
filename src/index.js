@@ -2,19 +2,19 @@ import "isomorphic-unfetch";
 import { AppContainer } from "react-hot-loader";
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
-import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloProvider } from "react-apollo-hooks";
 import App from "./App";
-import client from "./apollo/client";
+import client from "./apollo";
 
 const render = (Component) =>
   ReactDOM.render(
-    <AppContainer>
-      <StrictMode>
-        <ApolloProvider client={client}>
+    <StrictMode>
+      <ApolloProvider client={client}>
+        <AppContainer>
           <Component />
-        </ApolloProvider>
-      </StrictMode>
-    </AppContainer>,
+        </AppContainer>
+      </ApolloProvider>
+    </StrictMode>,
     document.getElementById("root")
   );
 

@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import gql from "graphql-tag";
 
 export const IS_LOGGED_IN = gql`
   {
@@ -6,9 +6,9 @@ export const IS_LOGGED_IN = gql`
   }
 `;
 
-export const CHECK_TOKEN = gql`
-  mutation checkToken {
-    checkToken @client
+export const LOG_OUT = gql`
+  mutation logOut {
+    logOut @client
   }
 `;
 
@@ -17,33 +17,83 @@ export const CLIENT_LOGIN = gql`
     logIn(token: $token) @client
   }
 `;
+
+export const GET_USERINFO = gql`
+  {
+    nickname
+    url @client
+  }
+`;
+
 export const LOG_IN = gql`
   mutation requestSecret($email: String!) {
     requestSecret(email: $email)
   }
 `;
 
-export const ADD_USER = gql`
-  mutation addUser(
-    $email: String!
-    $nickname: String!
-    $firstname: String!
-    $lastname: String!
-  ) {
-    addUser(
-      email: $email
-      nickname: $nickname
-      firstname: $firstname
-      lastname: $lastname
-    ) {
-      success
-      message
+export const CONFIRM_SECRET = gql`
+  mutation confirmSecret($email: String!, $secret: String!) {
+    confirmSecret(email: $email, secret: $secret)
+  }
+`;
+
+export const GET_MYPROFILE = gql`
+  {
+    getMyProfile {
+      id
+      nickname
+      email
+      avatar {
+        url
+      }
+      isMe
+      posts {
+        id
+      }
+      followedBy {
+        id
+      }
+      following {
+        id
+      }
     }
   }
 `;
 
-export const CONFIRM_SECRET = gql`
-  mutation confirmSecret($email: String!, $secret: String!) {
-    confirmSecret(email: $email, secret: $secret)
+export const GET_FEED = gql`
+  query getFeed($skip: Int, $first: Int, $orderBy: String) {
+    getFeed(skip: $skip, first: $first, orderBy: $orderBy) {
+      id
+      title
+      description
+      createdAt
+      updatedAt
+      user {
+        id
+        nickname
+        isFollowing
+        avatar {
+          url
+        }
+      }
+      video {
+        url_240p
+      }
+      accepts {
+        user {
+          nickname
+          avatar {
+            url
+          }
+        }
+      }
+      status
+      isLiked
+      isAccepted
+      likeCount
+      commentCount
+      acceptCount
+      isMyPost
+    }
   }
 `;

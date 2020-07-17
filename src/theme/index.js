@@ -3,14 +3,20 @@ import { css } from "styled-components";
 const BOX_BORDER = "1px solid #e6e6e6";
 const BORDER_RADIUS = "4px";
 
-const SIZES = {
-  DESKTOP: 1024,
-  TABLET: 768
+const size = {
+  mobileS: "320px",
+  mobileM: "375px",
+  mobileL: "425px",
+  tablet: "768px",
+  small: "944px",
+  middle: "1312px",
+  large: "1440px",
+  max: "1919px"
 };
 
-const media = Object.keys(SIZES).reduce((a, b) => {
+const media = Object.keys(size).reduce((a, b) => {
   a[b] = (...args) => css`
-    @media (max-width: ${SIZES[b] / 16}em) {
+    @media (max-width: ${size[b]}) {
       ${css(...args)};
     }
   `;
@@ -18,15 +24,7 @@ const media = Object.keys(SIZES).reduce((a, b) => {
 }, {});
 
 export default {
-  // menuFontColor: "#3EA9F1", // 메뉴 액티브 배경색
-  // menuBgColor: "#292f38", // 메뉴 배경색
-  // contentBgColor: "#323A45", // 내용 배경색
-  // borderColor: "#DEE2E6", // 입력창 테두리색
-  // cardBorderColor: "#78859E", // 카드형 테두리색
-  // cardBgColor: "#222222", // 카드형 배경색
-  // asideMenuWidth: 50, // 메뉴바 너비
-  // betweenCardMargin: 30, // 카드 사이 공간 너비
-  bgColor: "#FAFAFA", // 테마 배경색
+  bgColor: "#FAFAFA",
   blackColor: "#262626",
   darkGrayColor: "#999",
   lightGrayColor: "#c7c7c7",
@@ -40,7 +38,16 @@ export default {
     border-radius:${BORDER_RADIUS};
     background: white;
   `,
+  flexCenter: `
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
   maxWidth: "730px",
-  desktopQuery: media.DESKTOP,
-  tabletQuery: media.TABLET
+  mobileLQuery: media.mobileL,
+  tabletQuery: media.tablet,
+  smallQuery: media.small,
+  middleQuery: media.middle,
+  largeQuery: media.large,
+  maxQuery: media.max
 };

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 const Container = style.button`
     width: 100%;
+    height: 100%;
     border: 0;
     border-radius: ${(props) => props.theme.borderRadius};
     color: white;
@@ -20,5 +21,6 @@ function Button({ text, onClick }) {
 export default Button;
 
 Button.propTypes = {
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func
 };
