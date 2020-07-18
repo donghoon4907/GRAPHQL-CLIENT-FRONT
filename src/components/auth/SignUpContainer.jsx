@@ -26,7 +26,7 @@ export default ({ action, setAction }) => {
     formData.append("file", file);
 
     const { data } = await axios.post(
-      `http://${process.env.BACKEND_HOST}/api/upload`,
+      `${process.env.BACKEND_PATH}/api/upload`,
       formData,
       {
         headers: {
