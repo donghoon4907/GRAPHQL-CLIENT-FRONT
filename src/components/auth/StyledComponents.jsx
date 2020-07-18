@@ -32,7 +32,6 @@ export const Link = styled.span`
 
 export const Form = styled(Box)`
   padding: 1rem;
-  padding-bottom: 30px;
   margin-bottom: 15px;
   width: 100%;
   form {
@@ -47,4 +46,5 @@ export const Form = styled(Box)`
       margin-top: 10px;
     }
   }
+  ${(props) => props.theme.smallQuery`width:500px`}
 `;
