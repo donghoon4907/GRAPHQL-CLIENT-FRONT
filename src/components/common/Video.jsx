@@ -27,8 +27,8 @@ const Wrapper = styled.video`
 function Video({ src }) {
   return (
     <Container>
-      <Wrapper controls>
-        <source src={src} type="video/mp4" />
+      <Wrapper controls preload="metadata">
+        <source src={`${src}#t=1`} type="video/mp4" />
       </Wrapper>
     </Container>
   );

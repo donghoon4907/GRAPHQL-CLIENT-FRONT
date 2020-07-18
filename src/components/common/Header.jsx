@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
-import { useQuery, useApolloClient } from "react-apollo-hooks";
+import { useQuery, useMutation } from "react-apollo-hooks";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Dropdown, ButtonGroup } from "react-bootstrap";
-import { GET_MYPROFILE } from "../../query/auth";
+import { LOG_OUT, GET_MYPROFILE } from "../../query/auth";
 import Input from "./Input";
 import Avatar from "./Avatar";
 import Link from "./Link";
@@ -58,13 +58,13 @@ const StyledAvatar = styled(Avatar)`
 
 export default () => {
   const searchKeyword = getParam({ name: "keyword" });
-  const client = useApolloClient();
   const history = useHistory();
   const search = useInput(
     location.pathname === "/search" ? decodeURIComponent(searchKeyword) : ""
   );
 
   const { data } = useQuery(GET_MYPROFILE, { suspend: true });
+  const [logoutMutation] = useMutation(LOG_OUT);
 
   const handleSearchSubmit = useCallback(
     (e) => {
@@ -84,13 +84,7 @@ export default () => {
 
   const handleLogout = useCallback(() => {
     if (confirm("로그아웃 하시겠습니까?")) {
-      localStorage.removeItem("token");
-      history.push("/");
-      client.writeData({
-        data: {
-          isLoggedIn: false
-        }
-      });
+      logoutMutation();
     }
   }, []);
 
