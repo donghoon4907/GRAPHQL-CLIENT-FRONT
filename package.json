@@ -61,7 +61,16 @@
     "styled-reset": "^4.1.6",
     "subscriptions-transport-ws": "^0.9.17"
   },
-  "browserslist": [
-    "last 2 versions"
-  ]
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
