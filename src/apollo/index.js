@@ -38,14 +38,14 @@ const stateLink = withClientState({
 });
 
 const httpLink = new HttpLink({
-  uri: `http://${process.env.BACKEND_HOST}`,
+  uri: process.env.BACKEND_PATH,
   headers: {
     Authorization: token ? `Bearer ${token}` : ""
   }
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://${process.env.BACKEND_HOST}`,
+  uri: process.env.WEBSOCKET_PATH,
   options: {
     reconnect: true
   }
