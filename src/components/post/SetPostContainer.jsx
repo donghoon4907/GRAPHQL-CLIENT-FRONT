@@ -64,6 +64,7 @@ export default ({ location: { pathname } }) => {
       e.preventDefault();
       if (loading) return;
       if (!file) return alert("영상을 선택하세요.");
+      if (progress > 0 && progress < 100) return alert("업로드 진행 중입니다.");
       const {
         data: { addPost, updatePost }
       } = await setPostMutation({

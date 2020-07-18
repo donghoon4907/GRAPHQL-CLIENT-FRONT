@@ -19,6 +19,7 @@ export default ({ action, setAction }) => {
 
   const handleChangePreview = useCallback(async (e) => {
     if (!e.target.value) return; // prevent cancel action
+
     const [file] = e.target.files;
 
     const formData = new FormData();
@@ -70,6 +71,8 @@ export default ({ action, setAction }) => {
         if (addUser) {
           setAction("login");
           alert("회원가입이 정상처리되었습니다.");
+        } else {
+          alert("요청 중 오류가 발생했습니다.");
         }
       }
     },

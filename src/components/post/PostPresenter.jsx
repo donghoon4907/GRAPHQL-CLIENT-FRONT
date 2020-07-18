@@ -89,10 +89,7 @@ const Timestamp = styled.div`
 
 const DownloadItem = styled.div`
   display: inline-block;
-  width: 50px;
-  & + & {
-    margin-left: 5px;
-  }
+  width: 100%;
 `;
 
 const DownloadLink = styled.a`
@@ -242,28 +239,8 @@ export default ({
                   }}
                 >
                   <DownloadItem>
-                    <DownloadLink href={video.url_240p} download>
-                      240p
-                    </DownloadLink>
-                  </DownloadItem>
-                  <DownloadItem>
-                    <DownloadLink href={video.url_320p} download>
-                      320p
-                    </DownloadLink>
-                  </DownloadItem>
-                  <DownloadItem>
-                    <DownloadLink href={video.url_480p} download>
-                      480p
-                    </DownloadLink>
-                  </DownloadItem>
-                  <DownloadItem>
-                    <DownloadLink href={video.url_720p} download>
-                      720p
-                    </DownloadLink>
-                  </DownloadItem>
-                  <DownloadItem>
-                    <DownloadLink href={video.url_1080p} download>
-                      1080p
+                    <DownloadLink href={video.url} download>
+                      기본
                     </DownloadLink>
                   </DownloadItem>
                 </Popover.Content>

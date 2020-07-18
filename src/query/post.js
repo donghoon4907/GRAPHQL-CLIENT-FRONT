@@ -27,6 +27,7 @@ export const SEARCH_POST = gql`
         }
       }
       video {
+        url
         url_240p
         url_320p
         url_480p
