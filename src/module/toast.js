@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 export const showToast = ({
   type,
   message,
-  position = toast.POSITION.BOTTOM_RIGHT
+  position = toast.POSITION.TOP_RIGHT
 }) => {
   switch (type) {
     case "info": {

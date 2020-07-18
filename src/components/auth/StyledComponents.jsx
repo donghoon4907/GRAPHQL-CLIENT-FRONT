@@ -31,7 +31,7 @@ export const Link = styled.span`
 `;
 
 export const Form = styled(Box)`
-  padding: 40px;
+  padding: 1rem;
   padding-bottom: 30px;
   margin-bottom: 15px;
   width: 100%;
