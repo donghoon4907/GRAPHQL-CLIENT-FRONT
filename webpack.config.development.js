@@ -52,7 +52,9 @@ module.exports = {
     }),
     // HMR 업데이트 시 터미널에 표기
     new webpack.HotModuleReplacementPlugin(),
-    new Dotenv()
+    new Dotenv({
+      path: "./.env.development"
+    })
   ],
   devServer: {
     host: "localhost",

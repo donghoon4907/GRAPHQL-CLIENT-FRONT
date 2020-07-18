@@ -1,4 +1,0 @@
-[context.production.environment]
-BACKEND_HOST="https://graphql-client-server.herokuapp.com/"
-DEFAULT_AVATAR="41096534-dc1b-4f1b-b28f-65c0debc7a38"
-S3_IMAGE_PATH="https://frisk.s3.ap-northeast-2.amazonaws.com/upload/"

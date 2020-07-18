@@ -79,6 +79,8 @@ module.exports = {
       filename: "styles/styles.[hash].css",
       allChunks: true
     }),
-    new Dotenv()
+    new Dotenv({
+      path: "./.env.production"
+    })
   ]
 };
