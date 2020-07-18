@@ -33,7 +33,7 @@ export const Link = styled.span`
 export const Form = styled(Box)`
   padding: 1rem;
   margin-bottom: 15px;
-  width: 100%;
+  width: 500px;
   form {
     width: 100%;
     input {
@@ -46,5 +46,5 @@ export const Form = styled(Box)`
       margin-top: 10px;
     }
   }
-  ${(props) => props.theme.smallQuery`width:500px`}
+  ${(props) => props.theme.mobileLQuery`width:300px`}
 `;

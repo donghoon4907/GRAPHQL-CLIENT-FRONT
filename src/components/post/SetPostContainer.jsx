@@ -3,7 +3,6 @@ import { useQuery, useMutation } from "react-apollo-hooks";
 import axios from "axios";
 import { useInput } from "../../hooks";
 import { GET_POST, ADD_POST, UPDATE_POST } from "../../query/post";
-import { showToast } from "../../module/toast";
 import SetPostPresenter from "./SetPostPresenter";
 
 export default ({ location: { pathname } }) => {
@@ -77,15 +76,9 @@ export default ({ location: { pathname } }) => {
         }
       });
       if (addPost || updatePost) {
-        showToast({
-          type: "success",
-          message: `포스트가 ${postId === "new" ? "등록" : "수정"} 되었습니다.`
-        });
+        alert(`포스트가 ${postId === "new" ? "등록" : "수정"} 되었습니다.`);
       } else {
-        showToast({
-          type: "error",
-          message: "포스트 등록 중 오류가 발생했습니다."
-        });
+        alert("요청 중 오류가 발생했습니다.");
       }
     },
     [title.value, description.value, status.value, file]

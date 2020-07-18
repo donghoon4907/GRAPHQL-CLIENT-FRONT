@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import { useMutation } from "react-apollo-hooks";
 import UserPresenter from "./UserPresenter";
 import { FOLLOW, UNFOLLOW } from "../../query/user";
-import { showToast } from "../../module/toast";
 
 const UserContainer = ({
   id,
@@ -35,10 +34,7 @@ const UserContainer = ({
       if (unfollow) {
         setCtrlIsFolling(false);
         setFollowedByCount(followedByCount - 1);
-        showToast({
-          type: "info",
-          message: "언팔로우 되었습니다."
-        });
+        alert("언팔로우 되었습니다.");
       }
     } else {
       if (followLoading) return;
@@ -51,10 +47,7 @@ const UserContainer = ({
       if (follow) {
         setCtrlIsFolling(true);
         setFollowedByCount(followedByCount + 1);
-        showToast({
-          type: "info",
-          message: "팔로우 되었습니다."
-        });
+        alert("팔로우 되었습니다.");
       }
     }
   }, [ctrlIsFolling, followedByCount, followLoading, unfollowLoading]);

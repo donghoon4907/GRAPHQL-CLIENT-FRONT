@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import { useMutation } from "react-apollo-hooks";
 import { useInput } from "../../hooks";
 import SignInPresenter from "./SignInPresenter";
-import { showToast } from "../../module/toast";
 import { LOG_IN, CONFIRM_SECRET, CLIENT_LOGIN } from "../../query/auth";
 
 export default ({ action, setAction }) => {
@@ -32,10 +31,7 @@ export default ({ action, setAction }) => {
         });
         if (requestSecret) {
           setAction("confirm");
-          showToast({
-            type: "info",
-            message: `${requestSecret}을 입력하세요.`
-          });
+          alert(`${requestSecret}을 입력하세요.`);
         }
       } else if (action === "confirm") {
         if (confirmSecretLoading) return;

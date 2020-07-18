@@ -3,7 +3,6 @@ import { useMutation } from "react-apollo-hooks";
 import { useHistory } from "react-router-dom";
 import PostPresenter from "./PostPresenter";
 import { LIKE_POST, ACCEPT_POST, DELETE_POST } from "../../query/post";
-import { showToast } from "../../module/toast";
 
 const PostContainer = ({
   id,
@@ -75,10 +74,7 @@ const PostContainer = ({
         alert("해당 포스트가 삭제되었습니다.");
         window.location.reload();
       } else {
-        showToast({
-          type: "error",
-          message: "포스트 삭제 중 오류가 발생했습니다."
-        });
+        alert("포스트 삭제 중 오류가 발생했습니다.");
       }
     }
   }, [deleteLoading]);
@@ -94,15 +90,9 @@ const PostContainer = ({
     });
 
     if (acceptPost) {
-      showToast({
-        type: "success",
-        message: "요청 되었습니다."
-      });
+      alert("요청 되었습니다.");
     } else {
-      showToast({
-        type: "info",
-        message: "이미 요청했습니다."
-      });
+      alert("이미 요청했습니다.");
     }
   }, [acceptLoading]);
 

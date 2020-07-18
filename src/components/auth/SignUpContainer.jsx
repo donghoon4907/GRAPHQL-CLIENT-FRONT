@@ -3,7 +3,6 @@ import { useMutation } from "react-apollo-hooks";
 import axios from "axios";
 import { useInput } from "../../hooks";
 import SignUpPresenter from "./SignUpPresenter";
-import { showToast } from "../../module/toast";
 import { ADD_USER } from "../../query/user";
 
 export default ({ action, setAction }) => {
@@ -70,10 +69,7 @@ export default ({ action, setAction }) => {
         });
         if (addUser) {
           setAction("login");
-          showToast({
-            type: "success",
-            message: "회원가입이 정상처리되었습니다."
-          });
+          alert("회원가입이 정상처리되었습니다.");
         }
       }
     },

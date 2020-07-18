@@ -1,11 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.min.css";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 import React, { Suspense } from "react";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { useQuery } from "react-apollo-hooks";
-import { ToastContainer } from "react-toastify";
+// import { ToastContainer } from "react-toastify";
 import reset from "styled-reset";
 
 import theme from "./theme";
@@ -39,7 +39,6 @@ export default () => {
       <Suspense fallback={<Loader />}>
         <IsLoggedIn />
       </Suspense>
-      <ToastContainer />
     </ThemeProvider>
   );
 };

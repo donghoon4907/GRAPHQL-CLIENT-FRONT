@@ -6,7 +6,6 @@ import { ApolloLink, split } from "apollo-link";
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 import { withClientState } from "apollo-link-state";
-import { showToast } from "../module/toast";
 
 const token = localStorage.getItem("token");
 
@@ -56,16 +55,10 @@ const link = ApolloLink.from([
   onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach((v) => {
-        showToast({
-          type: "error",
-          message: v.message
-        });
+        alert(v.message);
       });
     } else if (networkError) {
-      showToast({
-        type: "warn",
-        message: "서버 점검 중입니다."
-      });
+      alert("서버 점검 중입니다.");
       localStorage.removeItem("token");
       window.location.reload();
     }
