@@ -2,12 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
+// 240p = 68%
 const Container = styled.div`
   position: relative;
 
   &:after {
     content: "";
-    padding-bottom: 68%;
+    padding-bottom: 57%;
     display: block;
   }
 `;
