@@ -45,7 +45,7 @@ export default ({ location: { pathname } }) => {
     formData.append("file", files[0]);
 
     const response = await axios.post(
-      `${process.env.BACKEND_PATH}/api/upload`,
+      `${process.env.BACKEND_PATH}api/upload`,
       formData,
       {
         onUploadProgress: ({ lengthComputable, loaded, total }) => {

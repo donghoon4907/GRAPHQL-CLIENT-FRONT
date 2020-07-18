@@ -5,9 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.config.development.js",
-    "removedist": "rimraf dist",
-    "localbuild": "cross-env NODE_ENV=production webpack -p --config webpack.config.production.js",
-    "build": "cd ./"
+    "prebuild": "rimraf dist",
+    "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.production.js"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
