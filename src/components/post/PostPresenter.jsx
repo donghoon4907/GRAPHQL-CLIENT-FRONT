@@ -197,7 +197,7 @@ export default ({
         )}
       </div>
     </Header>
-    <Video src={video.url_240p} />
+    <Video src={video.url} />
     <Body>
       <Title>{title}</Title>
       <Description>{description}</Description>
