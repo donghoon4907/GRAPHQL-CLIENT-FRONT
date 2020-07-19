@@ -80,13 +80,8 @@ export const GET_FEED = gql`
         url
         url_240p
       }
-      accepts {
-        user {
-          nickname
-          avatar {
-            url
-          }
-        }
+      room {
+        id
       }
       status
       isLiked
