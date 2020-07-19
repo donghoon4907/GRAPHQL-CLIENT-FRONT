@@ -21,7 +21,7 @@ export default ({ data: { getFeed }, onFetchMore }) => {
           getFeed.map((post) => <PostContainer key={post.id} {...post} />)
         ) : (
           <NoData>
-            <h1>검색 결과가 없습니다.</h1>
+            <h1>팔로잉 중인 사용자의 게시물이 없습니다.</h1>
           </NoData>
         )}
       </InfiniteScroll>

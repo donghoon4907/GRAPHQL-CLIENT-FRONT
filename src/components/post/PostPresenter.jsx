@@ -25,7 +25,7 @@ import {
 const Container = styled.div`
   ${(props) => props.theme.whiteBox};
   width: 100%;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 `;
 
 const Header = styled.div`

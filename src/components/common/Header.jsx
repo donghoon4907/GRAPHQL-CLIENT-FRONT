@@ -13,7 +13,6 @@ import getParam from "../../module/param";
 const Container = styled.header`
   height: 4rem;
   border-bottom: ${(props) => props.theme.boxBorder};
-  margin-bottom: 30px;
 `;
 
 const Wrapper = styled.div`
@@ -47,7 +46,7 @@ const SearchInput = styled(Input)`
     opacity: 0.8;
     font-weight: 200;
   }
-  ${(props) => props.theme.smallQuery`display:none`}
+  ${(props) => props.theme.smallQuery`width: 150px;`}
 `;
 
 const StyledAvatar = styled(Avatar)`
