@@ -51,6 +51,8 @@ export default ({ action, setAction }) => {
 
   return (
     <SignInPresenter
+      requestSecretLoading={requestSecretLoading}
+      confirmSecretLoading={confirmSecretLoading}
       setAction={setAction}
       action={action}
       email={email}

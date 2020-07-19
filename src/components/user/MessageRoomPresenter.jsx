@@ -1,10 +1,12 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
+import moment from "moment";
 import Section from "../common/Section";
 import Input from "../common/Input";
-import Button from "../common/Button";
 import Avatar from "../common/Avatar";
+import Timestamp from "../common/Timestamp";
+import { Link } from "../auth/StyledComponents";
 import { Carousel } from "react-bootstrap";
 import CarouselContainer, {
   CarouselColumn,
@@ -26,19 +28,28 @@ const Wrapper = styled.div`
 const Header = styled.div`
   height: 80px;
   width: 100%;
+  display flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 10px;
 `;
 
 const MessageItem = styled.div`
+  width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+`;
+
+const UserInfo = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 const Body = styled.div`
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
   background: rgba(0, 0, 0, 0.03);
 
   ${MessageItem} {
@@ -55,7 +66,6 @@ const UserName = styled.div`
 const Content = styled(UserName)`
   flex: 1;
   height: auto;
-  padding: 10px;
   display: flex;
   justify-content: flex-start;
 
@@ -77,7 +87,28 @@ const Message = styled.div`
   padding: 1rem;
   border: ${(props) => props.theme.boxBorder};
   border-radius: 4px;
-  width: 50%;
+  width: auto;
+  max-width: 50%;
+  position relative;
+
+
+  ${(props) =>
+    props.date &&
+    `
+  &:after {
+    content: '${props.date}';
+    position: absolute;
+    bottom: 0;
+    left: -150px;
+    width: 140px;
+    height: 15px;
+    font-weight: 400;
+    opacity: 0.5;
+    font-size: 12px;
+    color: black;
+  }
+`}
+${(props) => props.theme.smallQuery`${!props.date && "max-width: 100%"}`}
 `;
 
 const Footer = styled.div`
@@ -85,15 +116,9 @@ const Footer = styled.div`
   display: flex;
 `;
 
-const InputWrapper = styled.div`
+const Form = styled.form`
   flex: 1;
   ${(props) => props.theme.flexCenter};
-`;
-
-const ButtonWrapper = styled.div`
-  ${(props) => props.theme.flexCenter};
-  width: 150px;
-  height: 100%;
 `;
 
 export default ({
@@ -110,8 +135,9 @@ export default ({
       <title>대화방</title>
     </Helmet>
     <Wrapper>
-      {/* <Header>
-        <CarouselContainer>
+      <Header>
+        <Link onClick={() => history.back()}>뒤로가기</Link>
+        {/* <CarouselContainer>
           {getMessageRoom.participants
             .reduce((store, participant, index) => {
               const max = 4;
@@ -140,26 +166,36 @@ export default ({
                 </CarouselColumn>
               </Carousel.Item>
             ))}
-        </CarouselContainer>
-      </Header> */}
+                      </CarouselContainer>*/}
+      </Header>
       <Body ref={bodyEl}>
-        {messages.map(({ id, from, content }) => (
+        {messages.map(({ id, from, content, createdAt }) => (
           <MessageItem key={id}>
             {from.id == profile.id ? (
               <MyContent>
-                <Message>{content}</Message>
+                <Message
+                  datePosition="left"
+                  date={moment(createdAt).format("YYYY년 MM월 DD일 HH:mm")}
+                >
+                  {content}
+                </Message>
               </MyContent>
             ) : (
               <>
-                <Avatar
-                  size="30"
-                  src={
-                    from.avatar
-                      ? from.avatar.url
-                      : `${process.env.S3_IMAGE_PATH}${process.env.DEFAULT_AVATAR}`
-                  }
-                />
-                <UserName>{from.nickname}</UserName>
+                <UserInfo>
+                  <Avatar
+                    size="30"
+                    src={
+                      from.avatar
+                        ? from.avatar.url
+                        : `${process.env.S3_IMAGE_PATH}${process.env.DEFAULT_AVATAR}`
+                    }
+                  />
+                  <UserName>{from.nickname}</UserName>
+                  <Timestamp
+                    text={moment(createdAt).format("YYYY년 MM월 DD일 HH:mm")}
+                  />
+                </UserInfo>
                 <Content>
                   <Message>{content}</Message>
                 </Content>
@@ -169,16 +205,14 @@ export default ({
         ))}
       </Body>
       <Footer>
-        <InputWrapper>
+        <Form onSubmit={onSubmit}>
           <Input
             placeholder="메시지를 입력하세요."
             value={message}
             onChange={onChangeMessage}
+            required
           />
-        </InputWrapper>
-        <ButtonWrapper>
-          <Button text="입력" onClick={onSubmit} />
-        </ButtonWrapper>
+        </Form>
       </Footer>
     </Wrapper>
   </Section>

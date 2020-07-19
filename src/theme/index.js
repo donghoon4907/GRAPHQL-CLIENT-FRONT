@@ -1,5 +1,15 @@
 import { css } from "styled-components";
 
+let isMobile = false;
+
+if (navigator.platform) {
+  if (
+    "win16|win32|win64|mac|macintel".indexOf(navigator.platform.toLowerCase()) <
+    0
+  )
+    isMobile = true;
+}
+
 const BOX_BORDER = "1px solid #e6e6e6";
 const BORDER_RADIUS = "4px";
 
@@ -49,5 +59,6 @@ export default {
   smallQuery: media.small,
   middleQuery: media.middle,
   largeQuery: media.large,
-  maxQuery: media.max
+  maxQuery: media.max,
+  isMobile
 };

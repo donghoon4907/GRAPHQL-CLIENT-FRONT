@@ -41,17 +41,21 @@ export default ({ location: { pathname } }) => {
     setMessage(e.target.value);
   }, []);
 
-  const handleSubmit = useCallback(async () => {
-    if (loading) return;
-    const {
-      data: { addMessage }
-    } = await addMessageMutation({
-      variables: { content: message, roomId }
-    });
-    if (addMessage) {
-      setMessage("");
-    }
-  }, [message, loading]);
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (loading) return;
+      const {
+        data: { addMessage }
+      } = await addMessageMutation({
+        variables: { content: message, roomId }
+      });
+      if (addMessage) {
+        setMessage("");
+      }
+    },
+    [message, loading]
+  );
 
   useEffect(() => {
     bodyEl.current.scrollTop = bodyEl.current.scrollHeight;

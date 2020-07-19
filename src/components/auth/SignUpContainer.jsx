@@ -88,6 +88,7 @@ export default ({ action, setAction }) => {
 
   return (
     <SignUpPresenter
+      loading={addUserLoading}
       action={action}
       setAction={setAction}
       nickname={nickname}

@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import styled from "styled-components";
 import {
   Container,
   Wrapper,
@@ -9,7 +10,7 @@ import {
 } from "./StyledComponents";
 import Input from "../common/Input";
 import Button from "../common/Button";
-import styled from "styled-components";
+import Loader from "../common/Loader";
 import { Thumbnail } from "../icon";
 
 const UploadWrapper = styled.div`
@@ -27,6 +28,7 @@ const UploadWrapper = styled.div`
 `;
 
 export default ({
+  loading,
   action,
   setAction,
   nickname,
@@ -41,6 +43,7 @@ export default ({
 }) => {
   return (
     <Container>
+      {loading && <Loader />}
       <Wrapper>
         <Form>
           {action === "signup" && (

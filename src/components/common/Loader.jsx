@@ -8,6 +8,7 @@ const Container = styled.div`
   left: 0;
   width: 100%;
   min-height: 100vh;
+  z-index: 5;
 `;
 
 const Wrapper = styled.div`

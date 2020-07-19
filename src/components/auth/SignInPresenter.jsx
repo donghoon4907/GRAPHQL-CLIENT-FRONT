@@ -9,10 +9,20 @@ import {
 } from "./StyledComponents";
 import Input from "../common/Input";
 import Button from "../common/Button";
+import Loader from "../common/Loader";
 
-export default ({ action, setAction, email, onSubmit, secret }) => {
+export default ({
+  requestSecretLoading,
+  confirmSecretLoading,
+  action,
+  setAction,
+  email,
+  onSubmit,
+  secret
+}) => {
   return (
     <Container>
+      ]{(requestSecretLoading || confirmSecretLoading) && <Loader />}
       <Wrapper>
         <Form>
           {action === "login" && (

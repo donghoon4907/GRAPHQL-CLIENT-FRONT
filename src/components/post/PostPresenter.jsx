@@ -10,6 +10,7 @@ import moment from "moment";
 import Avatar from "../common/Avatar";
 import Video from "../common/Video";
 import Link from "../common/Link";
+import Timestamp from "../common/Timestamp";
 import {
   HeartFull,
   HeartEmpty,
@@ -76,15 +77,7 @@ const IconWrapper = styled.div`
 
 const Icon = styled.span`
   margin-right: 10px;
-`;
-
-const Timestamp = styled.div`
-  font-weight: 400;
-  opacity: 0.5;
-  display: inline-block;
-  font-size: 12px;
-  margin-left: 10px;
-  float: right;
+  ${(props) => props.disabledMobile && props.theme.isMobile && "display: none"}
 `;
 
 const DownloadItem = styled.div`
@@ -247,12 +240,12 @@ export default ({
               </Popover>
             }
           >
-            <Icon>
+            <Icon disabledMobile>
               <Download />
             </Icon>
           </OverlayTrigger>
         </div>
-        <Timestamp>{moment(createdAt).format("YYYY-MM-DD HH:mm:ss")}</Timestamp>
+        <Timestamp text={moment(createdAt).format("YYYY-MM-DD HH:mm:ss")} />
       </IconWrapper>
     </Footer>
   </Container>
