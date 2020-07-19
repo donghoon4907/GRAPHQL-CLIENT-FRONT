@@ -26,12 +26,11 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
-  height: 80px;
   width: 100%;
   display flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 0 10px;
+  padding: 10px 10px;
 `;
 
 const MessageItem = styled.div`

@@ -77,6 +77,7 @@ export const GET_FEED = gql`
         }
       }
       video {
+        url
         url_240p
       }
       accepts {

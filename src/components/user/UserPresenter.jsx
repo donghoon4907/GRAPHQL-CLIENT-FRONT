@@ -118,7 +118,10 @@ export default ({
         <div>{nickname}</div>
         {!isMe && (
           <div style={{ width: 100, paddingLeft: 10 }}>
-            <Button text="팔로우" />
+            <Button
+              text={isFollowing ? "언팔로우" : "팔로우"}
+              onClick={onFollow}
+            />
           </div>
         )}
       </Nickname>
