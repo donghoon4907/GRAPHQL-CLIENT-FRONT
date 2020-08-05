@@ -57,6 +57,16 @@ export const GET_MYPROFILE = gql`
         id
       }
     }
+    getUsers(first: 5) {
+      id
+      nickname
+      email
+      avatar {
+        url
+      }
+      isMe
+      isFollowing
+    }
   }
 `;
 

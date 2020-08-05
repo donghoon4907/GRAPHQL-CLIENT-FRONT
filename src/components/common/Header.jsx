@@ -7,12 +7,17 @@ import { LOG_OUT, GET_MYPROFILE } from "../../query/auth";
 import Input from "./Input";
 import Avatar from "./Avatar";
 import Link from "./Link";
+import Loader from "./Loader";
 import { useInput } from "../../hooks";
 import getParam from "../../module/param";
 
 const Container = styled.header`
   height: 4rem;
-  border-bottom: ${(props) => props.theme.boxBorder};
+  width: 100%;
+  background: white;
+  position: fixed;
+  border-bottom: ${props => props.theme.boxBorder};
+  z-index: 1;
 `;
 
 const Wrapper = styled.div`
@@ -23,8 +28,8 @@ const Wrapper = styled.div`
   align-items: center;
   margin: 0 auto;
 
-  ${(props) => props.theme.middleQuery`width:912px`}
-  ${(props) => props.theme.smallQuery`width:calc(100% - 2rem)`}
+  ${props => props.theme.middleQuery`width:912px`}
+  ${props => props.theme.smallQuery`width:calc(100% - 2rem)`}
 `;
 
 const Column = styled.div`
@@ -34,7 +39,7 @@ const Column = styled.div`
 `;
 
 const SearchInput = styled(Input)`
-  background: ${(props) => props.theme.bgColor};
+  background: ${props => props.theme.bgColor};
   padding: 5px;
   font-size: 14px;
   height: auto;
@@ -46,7 +51,7 @@ const SearchInput = styled(Input)`
     opacity: 0.8;
     font-weight: 200;
   }
-  ${(props) => props.theme.smallQuery`width: 150px;`}
+  ${props => props.theme.smallQuery`width: 150px;`}
 `;
 
 const StyledAvatar = styled(Avatar)`
@@ -62,11 +67,11 @@ export default () => {
     location.pathname === "/search" ? decodeURIComponent(searchKeyword) : ""
   );
 
-  const { data } = useQuery(GET_MYPROFILE, { suspend: true });
+  const { data, loading } = useQuery(GET_MYPROFILE);
   const [logoutMutation] = useMutation(LOG_OUT);
 
   const handleSearchSubmit = useCallback(
-    (e) => {
+    e => {
       e.preventDefault();
       history.push(`/search?keyword=${search.value}`);
     },
@@ -86,6 +91,10 @@ export default () => {
       logoutMutation();
     }
   }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <Container>

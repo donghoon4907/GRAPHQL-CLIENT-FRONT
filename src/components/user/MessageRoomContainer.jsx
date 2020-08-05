@@ -3,32 +3,30 @@ import { useQuery, useMutation, useSubscription } from "react-apollo-hooks";
 import MessageRoomPresenter from "./MessageRoomPresenter";
 import { GET_MYPROFILE } from "../../query/auth";
 import { GET_MESSAGEROOM, ADD_MESSAGE, SYNC_MESSAGE } from "../../query/user";
+import Loader from "../common/Loader";
 
 export default ({ location: { pathname } }) => {
   const [_, __, roomId] = pathname.split("/");
 
-  const { data } = useQuery(GET_MESSAGEROOM, {
+  const { data, loading } = useQuery(GET_MESSAGEROOM, {
     variables: {
       roomId
-    },
-    suspend: true
+    }
   });
 
-  const {
-    data: { getMyProfile }
-  } = useQuery(GET_MYPROFILE, {
-    suspend: true
-  });
+  const { data: profiles } = useQuery(GET_MYPROFILE);
 
-  const [addMessageMutation, { loading }] = useMutation(ADD_MESSAGE, {
-    variables: {
-      roomId
-    },
-    suspend: true
-  });
+  const [addMessageMutation, { loading: addMessageLoading }] = useMutation(
+    ADD_MESSAGE,
+    {
+      variables: {
+        roomId
+      }
+    }
+  );
 
   const bodyEl = useRef(null);
-  const [messages, setMessages] = useState(data.getMessageRoom.messages || []);
+  const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
   const { data: newMessage } = useSubscription(SYNC_MESSAGE, {
@@ -37,14 +35,14 @@ export default ({ location: { pathname } }) => {
     }
   });
 
-  const handleChangeMessage = useCallback((e) => {
+  const handleChangeMessage = useCallback(e => {
     setMessage(e.target.value);
   }, []);
 
   const handleSubmit = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault();
-      if (loading) return;
+      if (addMessageLoading) return;
       const {
         data: { addMessage }
       } = await addMessageMutation({
@@ -54,23 +52,35 @@ export default ({ location: { pathname } }) => {
         setMessage("");
       }
     },
-    [message, loading]
+    [message, addMessageLoading]
   );
 
   useEffect(() => {
-    bodyEl.current.scrollTop = bodyEl.current.scrollHeight;
-  }, [messages]);
-
-  useEffect(() => {
     if (newMessage) {
-      setMessages((prevState) => [...prevState, newMessage.syncMessage]);
+      setMessages(prevState => [...prevState, newMessage.syncMessage]);
     }
   }, [newMessage]);
+
+  useEffect(() => {
+    if (data) {
+      setMessages(data.getMessageRoom.messages);
+    }
+  }, [data, bodyEl]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      bodyEl.current.scrollTop = bodyEl.current.scrollHeight;
+    }
+  }, [messages, bodyEl]);
+
+  if ((loading && !data) || !profiles) {
+    return <Loader />;
+  }
 
   return (
     <MessageRoomPresenter
       data={data}
-      profile={getMyProfile}
+      profile={profiles.getMyProfile}
       message={message}
       messages={messages}
       bodyEl={bodyEl}

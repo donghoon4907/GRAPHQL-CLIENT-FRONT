@@ -1,21 +1,17 @@
 import React, { useState, useCallback } from "react";
 import { useMutation } from "react-apollo-hooks";
-import UserPresenter from "./UserPresenter";
+import RecommandUserPresenter from "./RecommandUserPresenter";
 import { FOLLOW, UNFOLLOW } from "../../query/user";
 
-const UserContainer = ({
+const RecommandUserContainer = ({
   id,
   avatar,
   nickname,
   email,
-  followedBy,
-  following,
-  posts,
   isFollowing,
   isMe
 }) => {
   const [ctrlIsFolling, setCtrlIsFolling] = useState(isFollowing);
-  const [followedByCount, setFollowedByCount] = useState(followedBy.length);
 
   const [followMutation, { loading: followLoading }] = useMutation(FOLLOW);
   const [unfollowMutation, { loading: unfollowLoading }] = useMutation(
@@ -33,7 +29,6 @@ const UserContainer = ({
       });
       if (unfollow) {
         setCtrlIsFolling(false);
-        setFollowedByCount(followedByCount - 1);
         alert("언팔로우 되었습니다.");
       }
     } else {
@@ -46,26 +41,22 @@ const UserContainer = ({
       });
       if (follow) {
         setCtrlIsFolling(true);
-        setFollowedByCount(followedByCount + 1);
         alert("팔로우 되었습니다.");
       }
     }
-  }, [ctrlIsFolling, followedByCount, followLoading, unfollowLoading]);
+  }, [ctrlIsFolling, followLoading, unfollowLoading]);
 
   return (
-    <UserPresenter
+    <RecommandUserPresenter
       id={id}
       avatar={avatar}
       nickname={nickname}
       email={email}
       isFollowing={ctrlIsFolling}
       isMe={isMe}
-      followedByCount={followedByCount}
-      folowingCount={following.length}
-      postCount={posts.length}
       onFollow={handleFollow}
     />
   );
 };
 
-export default UserContainer;
+export default RecommandUserContainer;

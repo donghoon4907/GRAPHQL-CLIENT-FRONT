@@ -1,41 +1,48 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import axios from "axios";
-import { useInput } from "../../hooks";
 import { GET_POST, ADD_POST, UPDATE_POST } from "../../query/post";
 import SetPostPresenter from "./SetPostPresenter";
+import Loader from "../common/Loader";
 
 export default ({ location: { pathname } }) => {
   const [_, __, postId] = pathname.split("/");
 
-  const { data } = useQuery(GET_POST, {
+  const { data, loading } = useQuery(GET_POST, {
     variables: {
       postId: postId
     },
-    skip: postId === "new",
-    suspend: true
+    skip: postId === "new"
   });
 
   const fileEl = useRef(null);
-  const title = useInput(postId === "new" ? "" : data.getPost.title);
-  const description = useInput(
-    postId === "new" ? "" : data.getPost.description
-  );
-  const status = useInput(postId === "new" ? "PUBLIC" : data.getPost.status);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("PUBLIC");
   const [progress, setProgress] = useState(postId === "new" ? 0 : 100);
-  const [file, setFile] = useState(
-    postId === "new" ? "" : data.getPost.video.url
-  );
+  const [file, setFile] = useState("");
 
-  const [setPostMutation, { loading }] = useMutation(
+  const [setPostMutation, { loading: setPostLoading }] = useMutation(
     postId === "new" ? ADD_POST : UPDATE_POST
   );
+
+  const handleChangeTitle = useCallback(e => {
+    setTitle(e.target.value);
+  }, []);
+
+  const handleChangeDescription = useCallback(e => {
+    setDescription(e.target.value);
+  }, []);
+
+  const handleChangeStatus = useCallback(e => {
+    setStatus(e.target.value);
+  }, []);
 
   const handleClickUpload = useCallback(() => {
     fileEl.current.click();
   }, []);
 
-  const handleChangeFile = useCallback(async (e) => {
+  const handleChangeFile = useCallback(async e => {
     if (!e.target.value) return; // cancel select file
 
     const { files } = e.target;
@@ -60,9 +67,9 @@ export default ({ location: { pathname } }) => {
   }, []);
 
   const handleSetPost = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault();
-      if (loading) return;
+      if (setPostLoading) return;
       if (!file) return alert("영상을 선택하세요.");
       if (progress > 0 && progress < 100) return alert("업로드 진행 중입니다.");
       const {
@@ -82,18 +89,35 @@ export default ({ location: { pathname } }) => {
         alert("요청 중 오류가 발생했습니다.");
       }
     },
-    [title.value, description.value, status.value, file]
+    [title.value, description.value, status.value, file, setPostLoading]
   );
+
+  useEffect(() => {
+    if (!loading && data) {
+      setTitle(data.getPost.title);
+      setDescription(data.getPost.description);
+      setStatus(data.getPost.status);
+      setFile(data.getPost.video.url);
+    }
+  }, [loading, data]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <SetPostPresenter
       data={data}
-      loading={loading}
+      loading={setPostLoading}
       title={title}
       description={description}
       status={status}
       progress={progress}
       fileEl={fileEl}
       onClickUpload={handleClickUpload}
+      onChangeTitle={handleChangeTitle}
+      onChangeDescription={handleChangeDescription}
+      onChangeStatus={handleChangeStatus}
       onChangeFile={handleChangeFile}
       onSubmit={handleSetPost}
     />

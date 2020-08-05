@@ -1,11 +1,11 @@
 import React from "react";
 import Section from "../common/Section";
-import UserComponent from "../user/UserContainer";
+import ProfileUserContainer from "../user/ProfileUserContainer";
 
 export default ({ data: { getUser } }) => {
   return (
     <Section>
-      <UserComponent {...getUser} />
+      <ProfileUserContainer {...getUser} />
     </Section>
   );
 };

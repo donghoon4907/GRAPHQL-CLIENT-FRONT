@@ -4,21 +4,21 @@ import { useQuery } from "react-apollo-hooks";
 import SearchPostPresenter from "./SearchPostPresenter";
 import { SEARCH_POST } from "../../query/post";
 import getParam from "../../module/param";
+import Loader from "../common/Loader";
 
 export default () => {
   const history = useHistory();
   const keyword = getParam({ name: "keyword" }) || "";
   const orderBy = getParam({ name: "orderBy" }) || "createdAt_DESC";
 
-  const { data, fetchMore } = useQuery(SEARCH_POST, {
+  const { data, loading, fetchMore } = useQuery(SEARCH_POST, {
     variables: {
       searchKeyword: decodeURIComponent(keyword),
       orderBy
-    },
-    suspend: true
+    }
   });
 
-  const handleSort = useCallback((nextOrderBy) => {
+  const handleSort = useCallback(nextOrderBy => {
     history.push(`/search?keyword=${keyword}&orderBy=${nextOrderBy}`);
   }, []);
 
@@ -38,6 +38,10 @@ export default () => {
       });
     }
   }, [data && data.getPosts]);
+
+  if (loading && !data) {
+    return <Loader />;
+  }
 
   return (
     <SearchPostPresenter

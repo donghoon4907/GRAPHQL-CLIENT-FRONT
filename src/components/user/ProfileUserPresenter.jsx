@@ -3,9 +3,9 @@ import styled from "styled-components";
 import Avatar from "../common/Avatar";
 import Button from "../common/Button";
 
-const Contianer = styled.div`
+const Container = styled.div`
   width: 100%;
-  ${(props) => props.theme.whiteBox}
+  ${props => props.theme.whiteBox}
   display: flex;
   flex-direction: row;
   position: relative;
@@ -18,7 +18,7 @@ const Contianer = styled.div`
 `;
 
 const AvatarWrapper = styled.div`
-  ${(props) => props.theme.flexCenter};
+  ${props => props.theme.flexCenter};
   padding: 2rem;
 
   @media (max-width: 720px) {
@@ -70,17 +70,17 @@ const Email = styled.div`
 const PostInfo = styled.div`
   display: flex;
   flex-direction: row;
-  border: ${(props) => props.theme.boxBorder};
+  border: ${props => props.theme.boxBorder};
 `;
 
 const PostInfoHeader = styled.div`
   flex: 1;
-  ${(props) => props.theme.flexCenter};
+  ${props => props.theme.flexCenter};
   padding: 1rem;
   background: rgba(0, 0, 0, 0.03);
   font-size: 20px;
   & + & {
-    border-left: ${(props) => props.theme.boxBorder};
+    border-left: ${props => props.theme.boxBorder};
   }
 `;
 
@@ -91,7 +91,6 @@ const PostInfoItem = styled(PostInfoHeader)`
 `;
 
 export default ({
-  id,
   avatar,
   nickname,
   isFollowing,
@@ -102,7 +101,7 @@ export default ({
   postCount,
   onFollow
 }) => (
-  <Contianer key={id}>
+  <Container>
     <AvatarWrapper>
       <Avatar
         size="250"
@@ -137,5 +136,5 @@ export default ({
         <PostInfoItem>{folowingCount.toLocaleString()}</PostInfoItem>
       </PostInfo>
     </Body>
-  </Contianer>
+  </Container>
 );

@@ -22,7 +22,7 @@ export default ({
 }) => {
   return (
     <Container>
-      ]{(requestSecretLoading || confirmSecretLoading) && <Loader />}
+      {(requestSecretLoading || confirmSecretLoading) && <Loader />}
       <Wrapper>
         <Form>
           {action === "login" && (

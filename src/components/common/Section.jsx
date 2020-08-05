@@ -5,17 +5,17 @@ const Container = styled.section`
   width: 912px;
   height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: ${props => props.flexDirection};
   margin: 0 auto;
   padding: 10px;
-  overflow: hidden;
+  padding-top: 5rem;
 
-  ${(props) => props.theme.middleQuery`width:912px`}
-  ${(props) => props.theme.smallQuery`width:100%`}
+  ${props => props.theme.middleQuery`width:912px`}
+  ${props => props.theme.smallQuery`width:100%`}
 `;
 
-function Section({ children }) {
-  return <Container>{children}</Container>;
+function Section({ children, flexDirection = "column" }) {
+  return <Container flexDirection={flexDirection}>{children}</Container>;
 }
 
 export default Section;

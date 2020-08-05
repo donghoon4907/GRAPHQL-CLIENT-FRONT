@@ -1,28 +1,46 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import { useQuery } from "react-apollo-hooks";
 import FeedPresenter from "./FeedPresenter";
-import { GET_FEED } from "../../query/auth";
+import { GET_MYPROFILE } from "../../query/auth";
+import { SEARCH_POST } from "../../query/post";
+import Loader from "../common/Loader";
 
 export default () => {
-  const { data, fetchMore } = useQuery(GET_FEED, {
-    suspend: true
+  const recommandUserEl = useRef(null);
+  const { data, loading, fetchMore } = useQuery(SEARCH_POST, {
+    variables: {
+      first: 10
+    }
   });
 
+  const { data: profiles } = useQuery(GET_MYPROFILE);
+
   const handleFetchMore = useCallback(() => {
-    if (data && data.getFeed) {
+    if (data && data.getPosts) {
       fetchMore({
         variables: {
-          skip: data.getFeed.length
+          skip: data.getPosts.length
         },
         updateQuery: (prev, { fetchMoreResult }) => {
           if (!fetchMoreResult) return prev;
           return Object.assign({}, prev, {
-            getFeed: [...prev.getFeed, ...fetchMoreResult.getFeed]
+            getPosts: [...prev.getPosts, ...fetchMoreResult.getPosts]
           });
         }
       });
     }
-  }, [data && data.getFeed]);
+  }, [data && data.getPosts]);
 
-  return <FeedPresenter data={data} onFetchMore={handleFetchMore} />;
+  if ((loading && !data) || !profiles) {
+    return <Loader />;
+  }
+
+  return (
+    <FeedPresenter
+      data={data}
+      users={profiles.getUsers}
+      onFetchMore={handleFetchMore}
+      recommandUserEl={recommandUserEl}
+    />
+  );
 };
