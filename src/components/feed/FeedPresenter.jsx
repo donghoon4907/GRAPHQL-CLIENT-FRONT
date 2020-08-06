@@ -40,7 +40,7 @@ const Subject = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid black;
+  border-bottom: ${props => props.activeBorder && "2px solid black"};
   padding: 10px 5px;
   font-size: 20px;
   margin-bottom: 10px;
@@ -84,7 +84,7 @@ export default ({
       <UserWrap ref={recommandUserEl}>
         <aside>
           <StickyWrap>
-            <Subject>
+            <Subject activeBorder>
               <span>공지사항</span>
               <div>{profile.isMaster && <Add />}</div>
             </Subject>
