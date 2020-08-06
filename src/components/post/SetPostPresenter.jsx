@@ -68,7 +68,7 @@ export default ({
     {loading && <Loader />}
 
     {data ? (
-      <Video src={data.getPost.video.url_240p} />
+      <Video src={data.getPost.video.url} />
     ) : (
       <UploadWrapper onClick={onClickUpload}>
         {progress > 0 && (

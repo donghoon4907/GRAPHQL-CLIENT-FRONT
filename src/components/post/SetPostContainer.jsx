@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import axios from "axios";
 import { GET_POST, ADD_POST, UPDATE_POST } from "../../query/post";
@@ -7,6 +8,7 @@ import Loader from "../common/Loader";
 
 export default ({ location: { pathname } }) => {
   const [_, __, postId] = pathname.split("/");
+  const history = useHistory();
 
   const { data, loading } = useQuery(GET_POST, {
     variables: {
@@ -70,7 +72,7 @@ export default ({ location: { pathname } }) => {
     async e => {
       e.preventDefault();
       if (setPostLoading) return;
-      if (!file) return alert("영상을 선택하세요.");
+      if (!file) return alert("영상을 선택하지 않았거나 업로드 진행 중입니다.");
       if (progress > 0 && progress < 100) return alert("업로드 진행 중입니다.");
       const {
         data: { addPost, updatePost }
@@ -85,6 +87,9 @@ export default ({ location: { pathname } }) => {
       });
       if (addPost || updatePost) {
         alert(`포스트가 ${postId === "new" ? "등록" : "수정"} 되었습니다.`);
+        if (postId === "new") {
+          history.push("/");
+        }
       } else {
         alert("요청 중 오류가 발생했습니다.");
       }

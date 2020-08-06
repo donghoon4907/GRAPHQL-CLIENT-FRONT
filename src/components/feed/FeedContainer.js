@@ -10,7 +10,8 @@ export default () => {
   const { data, loading, fetchMore } = useQuery(SEARCH_POST, {
     variables: {
       first: 10
-    }
+    },
+    fetchPolicy: "no-cache"
   });
 
   const { data: profiles } = useQuery(GET_MYPROFILE);
