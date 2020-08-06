@@ -77,9 +77,9 @@ export default ({ location: { pathname } }) => {
       } = await setPostMutation({
         variables: {
           postId,
-          title: title.value,
-          description: description.value,
-          status: status.value,
+          title,
+          description,
+          status,
           file
         }
       });
@@ -89,7 +89,7 @@ export default ({ location: { pathname } }) => {
         alert("요청 중 오류가 발생했습니다.");
       }
     },
-    [title.value, description.value, status.value, file, setPostLoading]
+    [title, description, status, file, setPostLoading]
   );
 
   useEffect(() => {

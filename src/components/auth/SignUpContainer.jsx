@@ -5,19 +5,36 @@ import { useInput } from "../../hooks";
 import SignUpPresenter from "./SignUpPresenter";
 import { ADD_USER } from "../../query/user";
 
-export default ({ action, setAction }) => {
+export default ({ setAction }) => {
   const fileEl = useRef(null);
+  const confirmPwdEl = useRef(null);
 
   const nickname = useInput("");
   const firstname = useInput("");
   const lastname = useInput("");
   const email = useInput("");
+  const pwd = useInput("");
+  const [confirmPwd, setConfirmPwd] = useState("");
   const [preview, setPreview] = useState("");
   const [file, setFile] = useState("");
 
   const [addUserMutation, { loading: addUserLoading }] = useMutation(ADD_USER);
 
-  const handleChangePreview = useCallback(async (e) => {
+  const handleChangeConfirmPwd = useCallback(
+    e => {
+      const { value } = e.target;
+      setConfirmPwd(value);
+      if (pwd.value !== value) {
+        confirmPwdEl.current.setCustomValidity("비밀번호가 일치하지 않습니다.");
+        return;
+      } else {
+        confirmPwdEl.current.setCustomValidity("");
+      }
+    },
+    [pwd.value]
+  );
+
+  const handleChangePreview = useCallback(async e => {
     if (!e.target.value) return; // prevent cancel action
 
     const [file] = e.target.files;
@@ -51,33 +68,33 @@ export default ({ action, setAction }) => {
   }, []);
 
   const handleSubmit = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault();
+      if (addUserLoading) return;
 
-      if (action === "signup") {
-        if (addUserLoading) return;
-
-        const {
-          data: { addUser }
-        } = await addUserMutation({
-          variables: {
-            email: email.value,
-            nickname: nickname.value,
-            firstname: firstname.value,
-            lastname: lastname.value,
-            file
-          }
-        });
-        if (addUser) {
-          setAction("login");
-          alert("회원가입이 정상처리되었습니다.");
-        } else {
-          alert("요청 중 오류가 발생했습니다.");
+      const {
+        data: { addUser }
+      } = await addUserMutation({
+        variables: {
+          email: email.value,
+          pwd: pwd.value,
+          nickname: nickname.value,
+          firstname: firstname.value,
+          lastname: lastname.value,
+          file
         }
+      });
+      if (addUser) {
+        setAction("login");
+        alert("회원가입이 정상처리되었습니다.");
+      } else {
+        alert("요청 중 오류가 발생했습니다.");
       }
     },
     [
       email.value,
+      pwd.value,
+      confirmPwd.value,
       nickname.value,
       firstname.value,
       lastname.value,
@@ -89,15 +106,17 @@ export default ({ action, setAction }) => {
   return (
     <SignUpPresenter
       loading={addUserLoading}
-      action={action}
-      setAction={setAction}
       nickname={nickname}
       firstname={firstname}
       lastname={lastname}
       email={email}
+      pwd={pwd}
+      confirmPwd={confirmPwd}
       preview={preview}
       fileEl={fileEl}
+      confirmPwdEl={confirmPwdEl}
       handleChangePreview={handleChangePreview}
+      handleChangeConfirmPwd={handleChangeConfirmPwd}
       handleClickUpload={handleClickUpload}
       handleSubmit={handleSubmit}
     />

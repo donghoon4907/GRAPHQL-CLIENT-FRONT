@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, Fragment } from "react";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -7,7 +7,6 @@ import { LOG_OUT, GET_MYPROFILE } from "../../query/auth";
 import Input from "./Input";
 import Avatar from "./Avatar";
 import Link from "./Link";
-import Loader from "./Loader";
 import { useInput } from "../../hooks";
 import getParam from "../../module/param";
 
@@ -29,7 +28,8 @@ const Wrapper = styled.div`
   margin: 0 auto;
 
   ${props => props.theme.middleQuery`width:912px`}
-  ${props => props.theme.smallQuery`width:calc(100% - 2rem)`}
+  ${props => props.theme.smallQuery`width:768px`}
+  ${props => props.theme.tabletQuery`width:calc(100% - 2rem)`}
 `;
 
 const Column = styled.div`
@@ -93,7 +93,7 @@ export default () => {
   }, []);
 
   if (loading) {
-    return <Loader />;
+    return <Fragment />;
   }
 
   return (

@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Box = styled.div`
-  ${(props) => props.theme.whiteBox}
+  ${props => props.theme.whiteBox}
   border-radius: 0;
   width: 100%;
   max-width: 350px;
@@ -26,11 +26,11 @@ export const StateChanger = styled(Box)`
   }
 `;
 export const Link = styled.span`
-  color: ${(props) => props.theme.blueColor};
+  color: ${props => props.theme.blueColor};
   cursor: pointer;
 `;
 
-export const Form = styled(Box)`
+export const FormWrapper = styled(Box)`
   padding: 1rem;
   margin-bottom: 15px;
   width: 500px;
@@ -46,5 +46,5 @@ export const Form = styled(Box)`
       margin-top: 10px;
     }
   }
-  ${(props) => props.theme.mobileLQuery`width:300px`}
+  ${props => props.theme.mobileLQuery`width:300px`}
 `;

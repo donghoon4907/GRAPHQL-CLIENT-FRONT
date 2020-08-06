@@ -1,16 +1,10 @@
 import React, { useState, useCallback } from "react";
 import { useMutation } from "react-apollo-hooks";
-import RecommandUserPresenter from "./RecommandUserPresenter";
+import PropTypes from "prop-types";
+import Button from "./Button";
 import { FOLLOW, UNFOLLOW } from "../../query/user";
 
-const RecommandUserContainer = ({
-  id,
-  avatar,
-  nickname,
-  email,
-  isFollowing,
-  isMe
-}) => {
+function FollowButton({ isFollowing, userId }) {
   const [ctrlIsFolling, setCtrlIsFolling] = useState(isFollowing);
 
   const [followMutation, { loading: followLoading }] = useMutation(FOLLOW);
@@ -25,7 +19,7 @@ const RecommandUserContainer = ({
       const {
         data: { unfollow }
       } = await unfollowMutation({
-        variables: { userId: id }
+        variables: { userId }
       });
       if (unfollow) {
         setCtrlIsFolling(false);
@@ -37,7 +31,7 @@ const RecommandUserContainer = ({
       const {
         data: { follow }
       } = await followMutation({
-        variables: { userId: id }
+        variables: { userId }
       });
       if (follow) {
         setCtrlIsFolling(true);
@@ -47,16 +41,15 @@ const RecommandUserContainer = ({
   }, [ctrlIsFolling, followLoading, unfollowLoading]);
 
   return (
-    <RecommandUserPresenter
-      id={id}
-      avatar={avatar}
-      nickname={nickname}
-      email={email}
-      isFollowing={ctrlIsFolling}
-      isMe={isMe}
-      onFollow={handleFollow}
+    <Button
+      text={ctrlIsFolling ? "언팔로우" : "팔로우"}
+      onClick={handleFollow}
     />
   );
-};
+}
+export default FollowButton;
 
-export default RecommandUserContainer;
+FollowButton.propTypes = {
+  isFollowing: PropTypes.bool.isRequired,
+  userId: PropTypes.string.isRequired
+};

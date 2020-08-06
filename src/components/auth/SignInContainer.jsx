@@ -2,62 +2,38 @@ import React, { useCallback } from "react";
 import { useMutation } from "react-apollo-hooks";
 import { useInput } from "../../hooks";
 import SignInPresenter from "./SignInPresenter";
-import { LOG_IN, CONFIRM_SECRET, CLIENT_LOGIN } from "../../query/auth";
+import { LOG_IN, CLIENT_LOGIN } from "../../query/auth";
 
-export default ({ action, setAction }) => {
+export default () => {
   const email = useInput("");
-  const secret = useInput("");
+  const pwd = useInput("");
 
-  const [
-    requestSecretMutation,
-    { loading: requestSecretLoading }
-  ] = useMutation(LOG_IN);
-  const [
-    confirmSecretMutation,
-    { loading: confirmSecretLoading }
-  ] = useMutation(CONFIRM_SECRET);
-  const [logIn] = useMutation(CLIENT_LOGIN);
+  const [logInMutation, { loading }] = useMutation(LOG_IN);
+  const [clientLogIn] = useMutation(CLIENT_LOGIN);
 
   const onSubmit = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault();
-      if (action === "login") {
-        if (requestSecretLoading) return;
+      if (loading) return;
 
-        const {
-          data: { requestSecret }
-        } = await requestSecretMutation({
-          variables: { email: email.value }
-        });
-        if (requestSecret) {
-          setAction("confirm");
-          alert(`${requestSecret}을 입력하세요.`);
-        }
-      } else if (action === "confirm") {
-        if (confirmSecretLoading) return;
-
-        const {
-          data: { confirmSecret }
-        } = await confirmSecretMutation({
-          variables: { email: email.value, secret: secret.value }
-        });
-        if (confirmSecret) {
-          logIn({ variables: { token: confirmSecret } });
-        }
+      const {
+        data: { logIn }
+      } = await logInMutation({
+        variables: { email: email.value, pwd: pwd.value }
+      });
+      if (logIn) {
+        clientLogIn({ variables: { token: logIn } });
       }
     },
-    [email.value, secret.value, requestSecretLoading, confirmSecretLoading]
+    [email.value, pwd.value, loading]
   );
 
   return (
     <SignInPresenter
-      requestSecretLoading={requestSecretLoading}
-      confirmSecretLoading={confirmSecretLoading}
-      setAction={setAction}
-      action={action}
+      loading={loading}
       email={email}
+      pwd={pwd}
       onSubmit={onSubmit}
-      secret={secret}
     />
   );
 };

@@ -38,7 +38,8 @@ export default () => {
   return (
     <FeedPresenter
       data={data}
-      users={profiles.getUsers}
+      profile={profiles.getMyProfile}
+      notices={profiles.getNotices}
       onFetchMore={handleFetchMore}
       recommandUserEl={recommandUserEl}
     />

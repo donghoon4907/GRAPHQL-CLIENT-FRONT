@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 const Container = styled.div`
   font-weight: 400;
@@ -11,7 +12,7 @@ const Container = styled.div`
 `;
 
 function Timestamp({ text }) {
-  return <Container>{text}</Container>;
+  return <Container>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</Container>;
 }
 export default Timestamp;
 

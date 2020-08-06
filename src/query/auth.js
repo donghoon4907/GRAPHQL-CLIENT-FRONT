@@ -26,16 +26,22 @@ export const GET_USERINFO = gql`
 `;
 
 export const LOG_IN = gql`
-  mutation requestSecret($email: String!) {
-    requestSecret(email: $email)
+  mutation logIn($email: String!, $pwd: String!) {
+    logIn(email: $email, pwd: $pwd)
   }
 `;
 
-export const CONFIRM_SECRET = gql`
-  mutation confirmSecret($email: String!, $secret: String!) {
-    confirmSecret(email: $email, secret: $secret)
-  }
-`;
+// export const LOG_IN = gql` deprecate
+//   mutation requestSecret($email: String!) {
+//     requestSecret(email: $email)
+//   }
+// `;
+
+// export const CONFIRM_SECRET = gql` deprecate
+//   mutation confirmSecret($email: String!, $secret: String!) {
+//     confirmSecret(email: $email, secret: $secret)
+//   }
+// `;
 
 export const GET_MYPROFILE = gql`
   {
@@ -47,6 +53,7 @@ export const GET_MYPROFILE = gql`
         url
       }
       isMe
+      isMaster
       posts {
         id
       }
@@ -57,15 +64,12 @@ export const GET_MYPROFILE = gql`
         id
       }
     }
-    getUsers(first: 5) {
+    getNotices(first: 5) {
       id
-      nickname
-      email
-      avatar {
-        url
-      }
-      isMe
-      isFollowing
+      title
+      description
+      createdAt
+      updatedAt
     }
   }
 `;

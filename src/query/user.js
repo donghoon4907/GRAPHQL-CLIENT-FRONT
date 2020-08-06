@@ -25,6 +25,7 @@ export const SEARCH_USER = gql`
       }
       isFollowing
       isMe
+      isMaster
     }
   }
 `;
@@ -62,6 +63,7 @@ export const GET_USER = gql`
 export const ADD_USER = gql`
   mutation addUser(
     $email: String!
+    $pwd: String!
     $nickname: String!
     $firstname: String!
     $lastname: String!
@@ -69,6 +71,7 @@ export const ADD_USER = gql`
   ) {
     addUser(
       email: $email
+      pwd: $pwd
       nickname: $nickname
       firstname: $firstname
       lastname: $lastname

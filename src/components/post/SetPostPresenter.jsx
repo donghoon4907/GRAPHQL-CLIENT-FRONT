@@ -55,17 +55,17 @@ export default ({
   progress,
   fileEl,
   onClickUpload,
-  onChangetitle,
+  onChangeTitle,
   onChangeDescription,
   onChangeStatus,
   onChangeFile,
   onSubmit
 }) => (
   <Section>
-    {loading && <Loader />}
     <Helmet>
       <title>포스트 {data ? "수정" : "등록"}</title>
     </Helmet>
+    {loading && <Loader />}
 
     {data ? (
       <Video src={data.getPost.video.url_240p} />
@@ -94,7 +94,7 @@ export default ({
         <Input
           placeholder={"제목을 입력하세요."}
           value={title}
-          onChange={onChangetitle}
+          onChange={onChangeTitle}
         />
       </div>
       <div>

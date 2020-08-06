@@ -11,7 +11,8 @@ const Container = styled.section`
   padding-top: 5rem;
 
   ${props => props.theme.middleQuery`width:912px`}
-  ${props => props.theme.smallQuery`width:100%`}
+  ${props => props.theme.smallQuery`width:768px`}
+  ${props => props.theme.tabletQuery`width:100%`}
 `;
 
 function Section({ children, flexDirection = "column" }) {

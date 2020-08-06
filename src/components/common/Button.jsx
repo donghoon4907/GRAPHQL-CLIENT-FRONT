@@ -6,13 +6,20 @@ const Container = style.button`
     width: 100%;
     height: 100%;
     border: 0;
-    border-radius: ${(props) => props.theme.borderRadius};
+    border-radius: ${props => props.theme.borderRadius};
     color: white;
     font-weight: 600;
-    background: ${(props) => props.theme.blueColor};
+    background: ${props => props.theme.blueColor};
     text-align: center;
     padding: 7px 0;
     font-size: 14px;
+    border: 1px solid ${props => props.theme.blueColor};
+
+    &:hover {
+      background: white;
+      color: black;
+      border: 1px solid black;
+    }
 `;
 
 function Button({ text, onClick }) {

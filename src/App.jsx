@@ -24,6 +24,10 @@ const GlobalStyle = createGlobalStyle`
     width: 24px;
     height: 24px;
     cursor: pointer;
+
+    &:hover {
+      fill: ${props => props.theme.blueColor};
+    }
   }
 `;
 
