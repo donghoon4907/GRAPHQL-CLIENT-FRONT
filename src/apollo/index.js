@@ -58,6 +58,8 @@ const link = ApolloLink.from([
       graphQLErrors.forEach(v => {
         alert(v.message);
       });
+      localStorage.removeItem("token");
+      window.location.reload();
     } else if (networkError) {
       alert("서버 점검 중입니다.");
       localStorage.removeItem("token");
