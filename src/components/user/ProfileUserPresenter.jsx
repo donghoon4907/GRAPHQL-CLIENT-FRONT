@@ -4,8 +4,8 @@ import Avatar from "../common/Avatar";
 import Button from "../common/Button";
 
 const Container = styled.div`
-  width: 100%;
   ${props => props.theme.whiteBox}
+  width: 100%;
   display: flex;
   flex-direction: row;
   position: relative;
@@ -18,7 +18,9 @@ const Container = styled.div`
 `;
 
 const AvatarWrapper = styled.div`
-  ${props => props.theme.flexCenter};
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 2rem;
 
   @media (max-width: 720px) {
@@ -75,7 +77,9 @@ const PostInfo = styled.div`
 
 const PostInfoHeader = styled.div`
   flex: 1;
-  ${props => props.theme.flexCenter};
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 1rem;
   background: rgba(0, 0, 0, 0.03);
   font-size: 20px;
@@ -103,14 +107,7 @@ export default ({
 }) => (
   <Container>
     <AvatarWrapper>
-      <Avatar
-        size="250"
-        src={
-          avatar
-            ? avatar.url
-            : `${process.env.S3_IMAGE_PATH}${process.env.DEFAULT_AVATAR}`
-        }
-      />
+      <Avatar size="250" src={avatar.url} />
     </AvatarWrapper>
     <Body>
       <Nickname>

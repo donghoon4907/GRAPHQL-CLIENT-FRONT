@@ -1,4 +1,4 @@
-import React, { useCallback, Fragment } from "react";
+import React, { useState, useCallback, Fragment } from "react";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -7,8 +7,10 @@ import { LOG_OUT, GET_MYPROFILE } from "../../query/auth";
 import Input from "./Input";
 import Avatar from "./Avatar";
 import Link from "./Link";
-import { useInput } from "../../hooks";
 import getParam from "../../module/param";
+import { Label } from "../auth/StyledComponents";
+import SearchResult from "./SearchResult";
+import { useDebounce } from "../../hooks";
 
 const Container = styled.header`
   height: 4rem;
@@ -38,20 +40,23 @@ const Column = styled.div`
   align-items: center;
 `;
 
+const SearchForm = styled.form`
+  width: 300px;
+  position: relative;
+  ${props => props.theme.tabletQuery`width:150px`}
+`;
+
 const SearchInput = styled(Input)`
   background: ${props => props.theme.bgColor};
   padding: 5px;
   font-size: 14px;
-  height: auto;
   border-radius: 3px;
-  width: 200px;
   text-align: center;
 
   &::placeholder {
     opacity: 0.8;
     font-weight: 200;
   }
-  ${props => props.theme.smallQuery`width: 150px;`}
 `;
 
 const StyledAvatar = styled(Avatar)`
@@ -61,21 +66,28 @@ const StyledAvatar = styled(Avatar)`
 `;
 
 export default () => {
-  const searchKeyword = getParam({ name: "keyword" });
+  const keyword = getParam({ name: "keyword" });
   const history = useHistory();
-  const search = useInput(
-    location.pathname === "/search" ? decodeURIComponent(searchKeyword) : ""
+  const [search, setSearch] = useState(
+    location.pathname === "/search" ? decodeURIComponent(keyword) : ""
   );
+  const [searchKeyword, setSearchKeyword] = useDebounce("", 1000);
 
   const { data, loading } = useQuery(GET_MYPROFILE);
+
   const [logoutMutation] = useMutation(LOG_OUT);
+
+  const handleChangeSearch = useCallback(e => {
+    setSearch(e.target.value);
+    setSearchKeyword(e.target.value);
+  }, []);
 
   const handleSearchSubmit = useCallback(
     e => {
       e.preventDefault();
-      history.push(`/search?keyword=${search.value}`);
+      history.push(`/search?keyword=${search}`);
     },
-    [search.value]
+    [search]
   );
 
   const handleMypage = useCallback(() => {
@@ -105,20 +117,22 @@ export default () => {
           </Link>
         </Column>
         <Column>
-          <form onSubmit={handleSearchSubmit}>
-            <SearchInput placeholder={"Search"} {...search} />
-          </form>
+          <SearchForm onSubmit={handleSearchSubmit}>
+            <Label htmlFor="search" val={search}>
+              검색어를 입력하세요.
+            </Label>
+            <SearchInput
+              placeholder="검색어를 입력하세요."
+              name="search"
+              value={search}
+              onChange={handleChangeSearch}
+            />
+            {searchKeyword && <SearchResult searchKeyword={searchKeyword} />}
+          </SearchForm>
         </Column>
         <Column>
           <Dropdown as={ButtonGroup}>
-            <StyledAvatar
-              size="38"
-              src={
-                data.getMyProfile.avatar
-                  ? data.getMyProfile.avatar.url
-                  : `${process.env.S3_IMAGE_PATH}${process.env.DEFAULT_AVATAR}`
-              }
-            >
+            <StyledAvatar size="38" src={data.getMyProfile.avatar.url}>
               <Dropdown.Toggle id="dropdown-custom-2" />
             </StyledAvatar>
 

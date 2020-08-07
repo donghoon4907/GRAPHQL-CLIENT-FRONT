@@ -1,17 +1,19 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
-import { FormWrapper } from "./StyledComponents";
+import { FormWrapper, Label, InputWrapper } from "./StyledComponents";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import Loader from "../common/Loader";
 import { Thumbnail } from "../icon";
 
 const UploadWrapper = styled.div`
+  ${props => props.theme.whiteBox}
   width: 100%;
   height: 150px;
-  ${props => props.theme.whiteBox}
-  ${props => props.theme.flexCenter}
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 10px;
   cursor: pointer;
 
@@ -24,8 +26,6 @@ const UploadWrapper = styled.div`
 export default ({
   loading,
   nickname,
-  firstname,
-  lastname,
   email,
   pwd,
   confirmPwd,
@@ -59,19 +59,38 @@ export default ({
             accept="image/jpg, image/jpeg, image/png"
           />
         </UploadWrapper>
-        <Input placeholder={"이름"} {...firstname} />
-        <Input placeholder={"성"} {...lastname} />
-        <Input type={"email"} placeholder={"이메일"} {...email} />
-        <Input type={"password"} placeholder={"암호"} {...pwd} />
-        <Input
-          type={"password"}
-          placeholder={"암호 확인"}
-          value={confirmPwd}
-          onChange={handleChangeConfirmPwd}
-          ref={confirmPwdEl}
-        />
-        <Input placeholder={"유저명"} {...nickname} />
-        <Button text={"회원가입"} />
+        <InputWrapper>
+          <Label htmlFor="email" val={email.value}>
+            이메일
+          </Label>
+          <Input type="email" placeholder="이메일" name="email" {...email} />
+        </InputWrapper>
+        <InputWrapper>
+          <Label htmlFor="password" val={pwd.value}>
+            암호
+          </Label>
+          <Input type="password" placeholder="암호" name="password" {...pwd} />
+        </InputWrapper>
+        <InputWrapper>
+          <Label htmlFor="conform_password" val={confirmPwd}>
+            암호 확인
+          </Label>
+          <Input
+            type="password"
+            placeholder="암호 확인"
+            name="conform_password"
+            value={confirmPwd}
+            onChange={handleChangeConfirmPwd}
+            ref={confirmPwdEl}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <Label htmlFor="nickname" val={nickname.value}>
+            닉네임
+          </Label>
+          <Input placeholder="닉네임" name="nickname" {...nickname} />
+        </InputWrapper>
+        <Button text="회원가입" />
       </form>
     </FormWrapper>
   );

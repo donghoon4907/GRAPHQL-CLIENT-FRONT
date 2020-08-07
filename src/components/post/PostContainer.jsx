@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { useMutation } from "react-apollo-hooks";
 import { useHistory } from "react-router-dom";
 import PostPresenter from "./PostPresenter";
-import { LIKE_POST, ACCEPT_POST, DELETE_POST } from "../../query/post";
+import { LIKE_POST, DELETE_POST } from "../../query/post";
 
 const PostContainer = ({
   id,
@@ -13,9 +13,7 @@ const PostContainer = ({
   user,
   video,
   isLiked,
-  isAccepted,
   likeCount,
-  acceptCount,
   isMyPost,
   status,
   room
@@ -26,11 +24,10 @@ const PostContainer = ({
   const [ctrlLikeCount, setCtrlLikeCount] = useState(likeCount);
 
   const [likeMutation, { loading: likeLoading }] = useMutation(LIKE_POST);
-  const [acceptMutation, { loading: acceptLoading }] = useMutation(ACCEPT_POST);
   const [deleteMutation, { loading: deleteLoading }] = useMutation(DELETE_POST);
 
   // 다운로드 이벤트
-  const handleDown = useCallback((url) => {
+  const handleDown = useCallback(url => {
     location.href = url;
   }, []);
 
@@ -79,23 +76,6 @@ const PostContainer = ({
     }
   }, [deleteLoading]);
 
-  // 요청 이벤트
-  const handleAccept = useCallback(async () => {
-    if (acceptLoading) return;
-
-    const {
-      data: { acceptPost }
-    } = await acceptMutation({
-      variables: { postId: id }
-    });
-
-    if (acceptPost) {
-      alert("요청 되었습니다.");
-    } else {
-      alert("이미 요청했습니다.");
-    }
-  }, [acceptLoading]);
-
   return (
     <PostPresenter
       id={id}
@@ -107,12 +87,9 @@ const PostContainer = ({
       user={user}
       video={video}
       isLiked={ctrlIsLiked}
-      isAccepted={isAccepted}
       likeCount={ctrlLikeCount}
-      acceptCount={acceptCount}
       isMyPost={isMyPost}
       onClickLike={handleLike}
-      onClickAccept={handleAccept}
       onClickRoom={handleRoom}
       onClickDown={handleDown}
       onClickDelete={handleDelete}

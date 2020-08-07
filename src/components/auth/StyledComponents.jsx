@@ -48,3 +48,16 @@ export const FormWrapper = styled(Box)`
   }
   ${props => props.theme.mobileLQuery`width:300px`}
 `;
+
+export const Label = styled.label`
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  font-size: 10px;
+  opacity: ${props => (props.val ? 0.5 : 0)};
+  animation: opacity 2s slidein;
+`;
+
+export const InputWrapper = styled.div`
+  position: relative;
+`;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import moment from "moment";
@@ -7,21 +7,16 @@ import Input from "../common/Input";
 import Avatar from "../common/Avatar";
 import Timestamp from "../common/Timestamp";
 import { Link } from "../auth/StyledComponents";
-import { Carousel } from "react-bootstrap";
-import CarouselContainer, {
-  CarouselColumn,
-  CarouselItem
-} from "../common/Carousel";
 
 const Wrapper = styled.div`
-  ${(props) => props.theme.whiteBox};
+  ${props => props.theme.whiteBox};
   width: 100%;
   height: 85vh;
   display: flex;
   flex-direction: column;
 
   & > div {
-    border-bottom: ${(props) => props.theme.boxBorder};
+    border-bottom: ${props => props.theme.boxBorder};
   }
 `;
 
@@ -57,7 +52,9 @@ const Body = styled.div`
 `;
 
 const UserName = styled.div`
-  ${(props) => props.theme.flexCenter};
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
   height: 30px;
 `;
@@ -77,21 +74,21 @@ const MyContent = styled(Content)`
   justify-content: flex-end;
 
   & > div {
-    background: ${(props) => props.theme.blueColor};
+    background: ${props => props.theme.blueColor};
     color: white;
   }
 `;
 
 const Message = styled.div`
   padding: 1rem;
-  border: ${(props) => props.theme.boxBorder};
+  border: ${props => props.theme.boxBorder};
   border-radius: 4px;
   width: auto;
   max-width: 50%;
   position relative;
 
 
-  ${(props) =>
+  ${props =>
     props.date &&
     `
   &:after {
@@ -107,7 +104,7 @@ const Message = styled.div`
     color: black;
   }
 `}
-${(props) => props.theme.smallQuery`${!props.date && "max-width: 100%"}`}
+${props => props.theme.smallQuery`${!props.date && "max-width: 100%"}`}
 `;
 
 const Footer = styled.div`
@@ -117,7 +114,9 @@ const Footer = styled.div`
 
 const Form = styled.form`
   flex: 1;
-  ${(props) => props.theme.flexCenter};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default ({
@@ -136,36 +135,6 @@ export default ({
     <Wrapper>
       <Header>
         <Link onClick={() => history.back()}>뒤로가기</Link>
-        {/* <CarouselContainer>
-          {getMessageRoom.participants
-            .reduce((store, participant, index) => {
-              const max = 4;
-              const columnIndex = Math.floor(index / max);
-              if (!store[columnIndex]) {
-                store[columnIndex] = [];
-              }
-              store[columnIndex] = [...store[columnIndex], participant];
-              return store;
-            }, [])
-            .map((v, idx) => (
-              <Carousel.Item key={`carouselWrap${idx}`}>
-                <CarouselColumn>
-                  {v.map((participant, idx2) => (
-                    <CarouselItem key={`carouselItem${idx2}`}>
-                      <Avatar
-                        size="40"
-                        src={
-                          participant.avatar
-                            ? participant.avatar.url
-                            : `${process.env.S3_IMAGE_PATH}${process.env.DEFAULT_AVATAR}`
-                        }
-                      />
-                    </CarouselItem>
-                  ))}
-                </CarouselColumn>
-              </Carousel.Item>
-            ))}
-                      </CarouselContainer>*/}
       </Header>
       <Body ref={bodyEl}>
         {messages.map(({ id, from, content, createdAt }) => (
@@ -180,16 +149,9 @@ export default ({
                 </Message>
               </MyContent>
             ) : (
-              <>
+              <Fragment>
                 <UserInfo>
-                  <Avatar
-                    size="30"
-                    src={
-                      from.avatar
-                        ? from.avatar.url
-                        : `${process.env.S3_IMAGE_PATH}${process.env.DEFAULT_AVATAR}`
-                    }
-                  />
+                  <Avatar size="30" src={from.avatar.url} />
                   <UserName>{from.nickname}</UserName>
                   <Timestamp
                     text={moment(createdAt).format("YYYY년 MM월 DD일 HH:mm")}
@@ -198,7 +160,7 @@ export default ({
                 <Content>
                   <Message>{content}</Message>
                 </Content>
-              </>
+              </Fragment>
             )}
           </MessageItem>
         ))}

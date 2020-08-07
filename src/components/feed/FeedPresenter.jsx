@@ -4,27 +4,24 @@ import styled from "styled-components";
 import Section from "../common/Section";
 import InfiniteScroll from "react-infinite-scroller";
 import PostContainer from "../post/PostContainer";
-import Notice from "../common/Notice";
 import { Add } from "../icon";
-import Link from "../common/Link";
+import { Carousel } from "react-bootstrap";
+import CarouselContainer from "../common/Carousel";
+import Timestamp from "../common/Timestamp";
+import SetNoticeModal from "../modal/SetNoticeContainer";
 
 const PostWrap = styled.div`
+  ${props => props.theme.smallQuery`width: 100%;`}
   width: 600px;
-
-  ${props => props.theme.smallQuery`
-    width: 100%;
-  `}
 `;
 
 const UserWrap = styled.div`
+  ${props => props.theme.smallQuery`display: none;`}
   width: 300px;
   display: flex;
   flex-direction: column;
   justfiy-content: space-between;
   margin-left: 20px;
-  ${props => props.theme.smallQuery`
-    display: none;
-  `}
 
   & > aside {
     flex: 1;
@@ -41,7 +38,7 @@ const Subject = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: ${props => props.activeBorder && "2px solid black"};
-  padding: 10px 5px;
+  padding: 8px 5px;
   font-size: 20px;
   margin-bottom: 10px;
   font-weight: 500;
@@ -57,10 +54,22 @@ const NoData = styled.div`
   text-align: center;
 `;
 
+const NoticeWrapper = styled.div`
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 15%;
+  margin-left: 15%;
+  padding: 5px;
+  text-align: center;
+`;
+
 export default ({
   data: { getPosts },
   notices,
   profile,
+  onShowNoticeModal,
   onFetchMore,
   recommandUserEl
 }) => {
@@ -84,20 +93,38 @@ export default ({
       <UserWrap ref={recommandUserEl}>
         <aside>
           <StickyWrap>
-            <Subject activeBorder>
-              <span>공지사항</span>
-              <div>{profile.isMaster && <Add />}</div>
-            </Subject>
-            {notices.length > 0 ? (
-              notices.map(notice => <Notice key={notice.id} {...notice} />)
-            ) : (
-              <NoData>
-                <h1>공지사항이 없습니다.</h1>
-              </NoData>
-            )}
+            <div>
+              <Subject activeBorder>
+                <span>공지사항</span>
+                <div>
+                  {profile.isMaster && (
+                    <div onClick={onShowNoticeModal}>
+                      <Add />
+                    </div>
+                  )}
+                </div>
+              </Subject>
+              {notices.length > 0 ? (
+                <CarouselContainer>
+                  {notices.map(notice => (
+                    <Carousel.Item key={notice.id}>
+                      <NoticeWrapper>
+                        <div>{notice.title}</div>
+                        <Timestamp text={notice.updatedAt} />
+                      </NoticeWrapper>
+                    </Carousel.Item>
+                  ))}
+                </CarouselContainer>
+              ) : (
+                <NoData>
+                  <h1>공지사항이 없습니다.</h1>
+                </NoData>
+              )}
+            </div>
           </StickyWrap>
         </aside>
       </UserWrap>
+      <SetNoticeModal />
     </Section>
   );
 };

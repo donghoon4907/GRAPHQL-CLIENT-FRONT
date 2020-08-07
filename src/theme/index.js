@@ -48,11 +48,6 @@ export default {
     border-radius:${BORDER_RADIUS};
     background: white;
   `,
-  flexCenter: `
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `,
   maxWidth: "730px",
   mobileLQuery: media.mobileL,
   tabletQuery: media.tablet,

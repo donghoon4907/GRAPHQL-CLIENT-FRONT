@@ -18,30 +18,11 @@ export const CLIENT_LOGIN = gql`
   }
 `;
 
-export const GET_USERINFO = gql`
-  {
-    nickname
-    url @client
-  }
-`;
-
 export const LOG_IN = gql`
   mutation logIn($email: String!, $pwd: String!) {
     logIn(email: $email, pwd: $pwd)
   }
 `;
-
-// export const LOG_IN = gql` deprecate
-//   mutation requestSecret($email: String!) {
-//     requestSecret(email: $email)
-//   }
-// `;
-
-// export const CONFIRM_SECRET = gql` deprecate
-//   mutation confirmSecret($email: String!, $secret: String!) {
-//     confirmSecret(email: $email, secret: $secret)
-//   }
-// `;
 
 export const GET_MYPROFILE = gql`
   {
@@ -92,17 +73,13 @@ export const GET_FEED = gql`
       }
       video {
         url
-        url_240p
       }
       room {
         id
       }
       status
       isLiked
-      isAccepted
       likeCount
-      commentCount
-      acceptCount
       isMyPost
     }
   }

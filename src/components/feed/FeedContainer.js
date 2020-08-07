@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from "react";
-import { useQuery } from "react-apollo-hooks";
+import { useQuery, useApolloClient } from "react-apollo-hooks";
 import FeedPresenter from "./FeedPresenter";
 import { GET_MYPROFILE } from "../../query/auth";
 import { SEARCH_POST } from "../../query/post";
@@ -7,6 +7,7 @@ import Loader from "../common/Loader";
 
 export default () => {
   const recommandUserEl = useRef(null);
+  const client = useApolloClient();
   const { data, loading, fetchMore } = useQuery(SEARCH_POST, {
     variables: {
       first: 10
@@ -32,6 +33,14 @@ export default () => {
     }
   }, [data && data.getPosts]);
 
+  const handleShowNoticeModal = useCallback(() => {
+    client.writeData({
+      data: {
+        isShowNoticeModal: true
+      }
+    });
+  }, []);
+
   if ((loading && !data) || !profiles) {
     return <Loader />;
   }
@@ -41,6 +50,7 @@ export default () => {
       data={data}
       profile={profiles.getMyProfile}
       notices={profiles.getNotices}
+      onShowNoticeModal={handleShowNoticeModal}
       onFetchMore={handleFetchMore}
       recommandUserEl={recommandUserEl}
     />

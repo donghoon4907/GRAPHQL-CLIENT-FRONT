@@ -10,13 +10,15 @@ import Video from "../common/Video";
 import { Upload } from "../icon";
 
 const UploadWrapper = styled.div`
+  ${props => props.theme.whiteBox};
+  background: ${props => props.theme.bgColor};
   width: 100%;
   height: 50px;
-  ${props => props.theme.whiteBox};
-  ${props => props.theme.flexCenter};
-  background: ${props => props.theme.bgColor};
   cursor: pointer;
   padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Label = styled.label`

@@ -17,7 +17,18 @@ const Container = style.input`
 `;
 
 export default forwardRef(
-  ({ placeholder, required = true, value, onChange, type = "text" }, ref) => (
+  (
+    {
+      placeholder,
+      required = true,
+      value,
+      onChange,
+      type = "text",
+      name,
+      autoComplete = "off"
+    },
+    ref
+  ) => (
     <Container
       placeholder={placeholder}
       required={required}
@@ -25,6 +36,8 @@ export default forwardRef(
       onChange={onChange}
       type={type}
       ref={ref}
+      name={name}
+      autoComplete={autoComplete}
     />
   )
 );

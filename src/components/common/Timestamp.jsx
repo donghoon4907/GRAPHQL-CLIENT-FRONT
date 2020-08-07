@@ -3,12 +3,11 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import moment from "moment";
 
-const Container = styled.div`
+const Container = styled.time`
   font-weight: 400;
   opacity: 0.5;
   display: inline-block;
   font-size: 12px;
-  margin-left: 10px;
 `;
 
 function Timestamp({ text }) {

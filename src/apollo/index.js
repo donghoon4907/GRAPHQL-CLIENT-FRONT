@@ -10,7 +10,8 @@ import { withClientState } from "apollo-link-state";
 const token = localStorage.getItem("token");
 
 const defaults = {
-  isLoggedIn: token ? true : false
+  isLoggedIn: token ? true : false,
+  isShowNoticeModal: false
 };
 
 const resolvers = {
@@ -54,7 +55,7 @@ const link = ApolloLink.from([
   stateLink,
   onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
-      graphQLErrors.forEach((v) => {
+      graphQLErrors.forEach(v => {
         alert(v.message);
       });
     } else if (networkError) {

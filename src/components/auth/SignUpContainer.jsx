@@ -10,15 +10,13 @@ export default ({ setAction }) => {
   const confirmPwdEl = useRef(null);
 
   const nickname = useInput("");
-  const firstname = useInput("");
-  const lastname = useInput("");
   const email = useInput("");
   const pwd = useInput("");
   const [confirmPwd, setConfirmPwd] = useState("");
   const [preview, setPreview] = useState("");
   const [file, setFile] = useState("");
 
-  const [addUserMutation, { loading: addUserLoading }] = useMutation(ADD_USER);
+  const [addUserMutation, { loading }] = useMutation(ADD_USER);
 
   const handleChangeConfirmPwd = useCallback(
     e => {
@@ -70,7 +68,7 @@ export default ({ setAction }) => {
   const handleSubmit = useCallback(
     async e => {
       e.preventDefault();
-      if (addUserLoading) return;
+      if (loading) return;
 
       const {
         data: { addUser }
@@ -79,9 +77,7 @@ export default ({ setAction }) => {
           email: email.value,
           pwd: pwd.value,
           nickname: nickname.value,
-          firstname: firstname.value,
-          lastname: lastname.value,
-          file
+          file: file ? file : process.env.DEFAULT_AVATAR
         }
       });
       if (addUser) {
@@ -91,24 +87,13 @@ export default ({ setAction }) => {
         alert("요청 중 오류가 발생했습니다.");
       }
     },
-    [
-      email.value,
-      pwd.value,
-      confirmPwd.value,
-      nickname.value,
-      firstname.value,
-      lastname.value,
-      file,
-      addUserLoading
-    ]
+    [email.value, pwd.value, confirmPwd.value, nickname.value, file, loading]
   );
 
   return (
     <SignUpPresenter
-      loading={addUserLoading}
+      loading={loading}
       nickname={nickname}
-      firstname={firstname}
-      lastname={lastname}
       email={email}
       pwd={pwd}
       confirmPwd={confirmPwd}

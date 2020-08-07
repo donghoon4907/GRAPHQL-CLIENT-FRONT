@@ -65,18 +65,9 @@ export const ADD_USER = gql`
     $email: String!
     $pwd: String!
     $nickname: String!
-    $firstname: String!
-    $lastname: String!
     $file: String
   ) {
-    addUser(
-      email: $email
-      pwd: $pwd
-      nickname: $nickname
-      firstname: $firstname
-      lastname: $lastname
-      file: $file
-    )
+    addUser(email: $email, pwd: $pwd, nickname: $nickname, file: $file)
   }
 `;
 

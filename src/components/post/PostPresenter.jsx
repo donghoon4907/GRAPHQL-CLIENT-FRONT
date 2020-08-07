@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import {
   OverlayTrigger,
@@ -11,19 +11,10 @@ import Avatar from "../common/Avatar";
 import Video from "../common/Video";
 import Link from "../common/Link";
 import Timestamp from "../common/Timestamp";
-import {
-  HeartFull,
-  HeartEmpty,
-  Accept,
-  Permit,
-  Private,
-  Room,
-  Download,
-  More
-} from "../icon";
+import { HeartFull, HeartEmpty, Room, Download, More } from "../icon";
 
 const Container = styled.div`
-  ${(props) => props.theme.whiteBox};
+  ${props => props.theme.whiteBox};
   width: 100%;
   margin-bottom: 30px;
 `;
@@ -33,7 +24,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: ${(props) => props.theme.bgColor};
+  background: ${props => props.theme.bgColor};
 `;
 
 const User = styled.div`
@@ -45,8 +36,8 @@ const User = styled.div`
 
 const Body = styled.div`
   padding: 15px;
-  border-top: ${(props) => props.theme.boxBorder};
-  border-bottom: ${(props) => props.theme.boxBorder};
+  border-top: ${props => props.theme.boxBorder};
+  border-bottom: ${props => props.theme.boxBorder};
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -77,7 +68,7 @@ const IconWrapper = styled.div`
 
 const Icon = styled.span`
   margin-right: 10px;
-  ${(props) => props.disabledMobile && props.theme.isMobile && "display: none"}
+  ${props => props.disabledMobile && props.theme.isMobile && "display: none"}
 `;
 
 const DownloadItem = styled.div`
@@ -90,10 +81,10 @@ const DownloadLink = styled.a`
   width: 100%;
   height: 100%;
   border: 0;
-  border-radius: ${(props) => props.theme.borderRadius};
+  border-radius: ${props => props.theme.borderRadius};
   color: white;
   font-weight: 600;
-  background: ${(props) => props.theme.blueColor};
+  background: ${props => props.theme.blueColor};
   text-align: center;
   padding: 7px 0;
   font-size: 14px;
@@ -135,12 +126,9 @@ export default ({
   user,
   video,
   isLiked,
-  isAccepted,
   likeCount,
-  acceptCount,
   isMyPost,
   onClickLike,
-  onClickAccept,
   onClickRoom,
   onClickDelete
 }) => (
@@ -148,14 +136,7 @@ export default ({
     <Header>
       <User>
         <Link pathname={`/user/${user.id}`}>
-          <Avatar
-            size="30"
-            src={
-              user.avatar
-                ? user.avatar.url
-                : `${process.env.S3_IMAGE_PATH}${process.env.DEFAULT_AVATAR}`
-            }
-          />
+          <Avatar size="30" src={user.avatar.url} />
         </Link>
 
         <div style={{ textIndent: 10 }}>{user.nickname}</div>
@@ -202,48 +183,40 @@ export default ({
             {isLiked ? <HeartFull /> : <HeartEmpty />}
           </Icon>
           <Icon>{likeCount.toLocaleString()}</Icon>
-          {/* <Icon>
-            {status === "PUBLIC" ? (
-              isAccepted || isMyPost ? (
-                <Permit />
-              ) : (
-                <Accept onClick={onClickAccept} />
-              )
-            ) : (
-              <Private />
-            )}
-          </Icon> */}
-          {/* {status === "PUBLIC" && <Icon>{acceptCount.toLocaleString()}</Icon>} */}
-          <Icon>
-            <Room onClick={onClickRoom} />
-          </Icon>
+          {status === "PUBLIC" && (
+            <Fragment>
+              <Icon>
+                <Room onClick={onClickRoom} />
+              </Icon>
 
-          <OverlayTrigger
-            trigger="click"
-            placement="right"
-            overlay={
-              <Popover id="popover-basic">
-                <Popover.Title as="h3">다운로드</Popover.Title>
-                <Popover.Content
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "auto"
-                  }}
-                >
-                  <DownloadItem>
-                    <DownloadLink href={video.url} download>
-                      기본
-                    </DownloadLink>
-                  </DownloadItem>
-                </Popover.Content>
-              </Popover>
-            }
-          >
-            <Icon disabledMobile>
-              <Download />
-            </Icon>
-          </OverlayTrigger>
+              <OverlayTrigger
+                trigger="click"
+                placement="right"
+                overlay={
+                  <Popover id="popover-basic">
+                    <Popover.Title as="h3">다운로드</Popover.Title>
+                    <Popover.Content
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        width: "auto"
+                      }}
+                    >
+                      <DownloadItem>
+                        <DownloadLink href={video.url} download>
+                          기본
+                        </DownloadLink>
+                      </DownloadItem>
+                    </Popover.Content>
+                  </Popover>
+                }
+              >
+                <Icon disabledMobile>
+                  <Download />
+                </Icon>
+              </OverlayTrigger>
+            </Fragment>
+          )}
         </div>
         <Timestamp text={moment(createdAt).format("YYYY-MM-DD HH:mm:ss")} />
       </IconWrapper>

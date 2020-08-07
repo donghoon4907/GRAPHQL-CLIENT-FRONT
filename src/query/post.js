@@ -36,10 +36,7 @@ export const SEARCH_POST = gql`
       }
       status
       isLiked
-      isAccepted
       likeCount
-      commentCount
-      acceptCount
       isMyPost
       room {
         id
@@ -66,18 +63,6 @@ export const GET_POST = gql`
 export const LIKE_POST = gql`
   mutation likePost($postId: String!) {
     likePost(postId: $postId)
-  }
-`;
-
-export const ACCEPT_POST = gql`
-  mutation acceptPost($postId: String!) {
-    acceptPost(postId: $postId)
-  }
-`;
-
-export const ADD_COMMENT = gql`
-  mutation addComment($content: String!, $postId: String!) {
-    addComment(content: $content, postId: $postId)
   }
 `;
 
