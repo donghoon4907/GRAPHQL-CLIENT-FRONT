@@ -2,7 +2,7 @@ import React, { useCallback, Fragment } from "react";
 import { useQuery } from "react-apollo-hooks";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { TOTAL_SEARCH } from "../../query/search";
+import { GET_SEARCHKEYWORD } from "../../query/searchkeyword";
 import Avatar from "./Avatar";
 import Button from "./Button";
 
@@ -26,7 +26,7 @@ const ContentType = styled.div`
 
 const Item = styled.li`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start
   align-items: center;
   padding: 5px;
   font-size: 12px;
@@ -34,28 +34,28 @@ const Item = styled.li`
   cursor: pointer;
 `;
 
-const Title = styled.span`
+const Title = styled.h3`
   ${props => props.theme.tabletQuery`width:100px`}
   width: 240px;
-  display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 
-export default ({ searchKeyword }) => {
+export default ({ searchKeyword, setSearch, setSearchKeyword }) => {
   const history = useHistory();
 
-  const { data, loading } = useQuery(TOTAL_SEARCH, {
+  const { data, loading } = useQuery(GET_SEARCHKEYWORD, {
     variables: {
-      searchKeyword,
-      first: 3
+      searchKeyword
     },
     fetchPolicy: "no-cache"
   });
 
-  const handleClickSearchResult = useCallback(keyword => {
+  const handleClickItem = useCallback(keyword => {
     history.push(`/search?keyword=${keyword}`);
+    setSearch(keyword);
+    setSearchKeyword("");
   }, []);
 
   if (loading) {
@@ -64,34 +64,12 @@ export default ({ searchKeyword }) => {
 
   return (
     <Container>
-      <ContentType>포스트 검색결과</ContentType>
+      <ContentType>연관 검색어</ContentType>
       <ol>
-        {data.getPosts.length > 0 ? (
-          data.getPosts.map(({ id, title, user }) => (
-            <Item key={id} onClick={() => handleClickSearchResult(title)}>
-              <div>
-                <Title>{title}</Title>
-              </div>
-              <div>
-                <Avatar size="20" src={user.avatar.url} />
-              </div>
-            </Item>
-          ))
-        ) : (
-          <Item>검색결과가 없습니다.</Item>
-        )}
-      </ol>
-      <ContentType>유저 검색결과</ContentType>
-      <ol>
-        {data.getUsers.length > 0 ? (
-          data.getUsers.map(({ id, nickname, avatar }) => (
-            <Item key={id} onClick={() => handleClickSearchResult(nickname)}>
-              <div>
-                <Title>{nickname}</Title>
-              </div>
-              <div>
-                <Avatar size="20" src={avatar.url} />
-              </div>
+        {data.getSearchKeyword.length > 0 ? (
+          data.getSearchKeyword.map(({ id, keyword }) => (
+            <Item key={id} onClick={() => handleClickItem(keyword)}>
+              <Title>{keyword}</Title>
             </Item>
           ))
         ) : (

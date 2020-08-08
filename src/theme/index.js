@@ -38,6 +38,8 @@ export default {
   blackColor: "#262626",
   darkGrayColor: "#999",
   lightGrayColor: "#c7c7c7",
+  successColor: "#3D8939",
+  infoColor: "#358597",
   redColor: "#ED4956",
   blueColor: "#3897f0",
   darkBlueColor: "#003569",

@@ -1,13 +1,13 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
-import InfiniteScroll from "react-infinite-scroller";
 import { Accordion, Card, Table } from "react-bootstrap";
 import Section from "../common/Section";
 import PostContainer from "../post/PostContainer";
+import MoreLoader from "../common/MoreLoader";
 
 const Filter = styled.div`
-  ${(props) => props.theme.whiteBox};
+  ${props => props.theme.whiteBox};
   width: 100%;
   height: auto;
   margin-bottom: 30px;
@@ -23,12 +23,12 @@ const Filter = styled.div`
   & .card-header {
     border: none;
     cursor: pointer;
-    background: ${(props) => props.theme.bgColor};
+    background: ${props => props.theme.bgColor};
   }
 
   & .table thead th {
     border: none;
-    border-bottom: ${(props) => props.theme.boxBorder};
+    border-bottom: ${props => props.theme.boxBorder};
   }
 
   & td {
@@ -38,7 +38,7 @@ const Filter = styled.div`
 
 const StyledTd = styled.td`
   cursor: pointer;
-  font-weight: ${(props) => (props.active ? "bold" : 500)};
+  font-weight: ${props => (props.active ? "bold" : 500)};
 `;
 
 const NoSearch = styled.div`
@@ -46,12 +46,13 @@ const NoSearch = styled.div`
   text-align: center;
 `;
 
-export default ({ data: { getPosts }, orderBy, onFetchMore, onSort }) => {
+export default ({ data: { getPosts }, loading, orderBy, onSort }) => {
   return (
     <Section>
       <Helmet>
         <title>검색결과</title>
       </Helmet>
+
       {getPosts.length > 0 && (
         <Filter>
           <Accordion>
@@ -108,16 +109,14 @@ export default ({ data: { getPosts }, orderBy, onFetchMore, onSort }) => {
           </Accordion>
         </Filter>
       )}
-
-      <InfiniteScroll loadMore={onFetchMore} hasMore={true}>
-        {getPosts.length > 0 ? (
-          getPosts.map((post) => <PostContainer key={post.id} {...post} />)
-        ) : (
-          <NoSearch>
-            <h1>검색 결과가 없습니다.</h1>
-          </NoSearch>
-        )}
-      </InfiniteScroll>
+      {getPosts.length > 0 ? (
+        getPosts.map(post => <PostContainer key={post.id} {...post} />)
+      ) : (
+        <NoSearch>
+          <h1>검색 결과가 없습니다.</h1>
+        </NoSearch>
+      )}
+      {loading && <MoreLoader />}
     </Section>
   );
 };

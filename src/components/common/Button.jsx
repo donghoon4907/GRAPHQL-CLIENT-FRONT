@@ -11,7 +11,7 @@ const Container = style.button`
     font-weight: 600;
     background: ${props => props.theme.blueColor};
     text-align: center;
-    padding: 7px 0;
+    padding: 7px;
     font-size: 14px;
     border: 1px solid ${props => props.theme.blueColor};
 
@@ -22,8 +22,12 @@ const Container = style.button`
     }
 `;
 
-function Button({ text, onClick }) {
-  return <Container onClick={onClick}>{text}</Container>;
+function Button({ text, className, onClick }) {
+  return (
+    <Container className={className} onClick={onClick}>
+      {text}
+    </Container>
+  );
 }
 export default Button;
 

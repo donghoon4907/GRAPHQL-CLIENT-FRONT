@@ -32,10 +32,10 @@ export default ({
   preview,
   fileEl,
   confirmPwdEl,
-  handleChangePreview,
-  handleChangeConfirmPwd,
-  handleClickUpload,
-  handleSubmit
+  onChangePreview,
+  onChangeConfirmPwd,
+  onClickUpload,
+  onSubmit
 }) => {
   return (
     <FormWrapper>
@@ -43,8 +43,8 @@ export default ({
         <title>회원가입</title>
       </Helmet>
       {loading && <Loader />}
-      <form onSubmit={handleSubmit}>
-        <UploadWrapper onClick={handleClickUpload}>
+      <form onSubmit={onSubmit}>
+        <UploadWrapper onClick={onClickUpload}>
           {preview ? (
             <img src={preview} alt="avatar" title="변경하려면 클릭하세요." />
           ) : (
@@ -53,7 +53,7 @@ export default ({
 
           <input
             type="file"
-            onChange={handleChangePreview}
+            onChange={onChangePreview}
             ref={fileEl}
             hidden
             accept="image/jpg, image/jpeg, image/png"
@@ -80,7 +80,7 @@ export default ({
             placeholder="암호 확인"
             name="conform_password"
             value={confirmPwd}
-            onChange={handleChangeConfirmPwd}
+            onChange={onChangeConfirmPwd}
             ref={confirmPwdEl}
           />
         </InputWrapper>

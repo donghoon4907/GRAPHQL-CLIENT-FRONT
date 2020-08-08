@@ -7,8 +7,12 @@ export const ADD_NOTICE = gql`
 `;
 
 export const UPDATE_NOTICE = gql`
-  mutation addNotice($title: String!, $description: String!) {
-    addNotice(title: $title, description: $description)
+  mutation updateNotice(
+    $noticeId: String!
+    $title: String!
+    $description: String!
+  ) {
+    updateNotice(noticeId: $noticeId, title: $title, description: $description)
   }
 `;
 

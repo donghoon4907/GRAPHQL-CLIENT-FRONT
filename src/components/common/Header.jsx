@@ -1,6 +1,6 @@
 import React, { useState, useCallback, Fragment } from "react";
-import { useQuery, useMutation } from "react-apollo-hooks";
 import { useHistory } from "react-router-dom";
+import { useQuery, useMutation } from "react-apollo-hooks";
 import styled from "styled-components";
 import { Dropdown, ButtonGroup } from "react-bootstrap";
 import { LOG_OUT, GET_MYPROFILE } from "../../query/auth";
@@ -10,7 +10,7 @@ import Link from "./Link";
 import getParam from "../../module/param";
 import { Label } from "../auth/StyledComponents";
 import SearchResult from "./SearchResult";
-import { useDebounce } from "../../hooks";
+import { useDebounce, useLocation } from "../../hooks";
 
 const Container = styled.header`
   height: 4rem;
@@ -66,12 +66,12 @@ const StyledAvatar = styled(Avatar)`
 `;
 
 export default () => {
-  const keyword = getParam({ name: "keyword" });
   const history = useHistory();
+  const keyword = getParam({ name: "keyword" });
   const [search, setSearch] = useState(
     location.pathname === "/search" ? decodeURIComponent(keyword) : ""
   );
-  const [searchKeyword, setSearchKeyword] = useDebounce("", 1000);
+  const [searchKeyword, setSearchKeyword] = useDebounce("", 300);
 
   const { data, loading } = useQuery(GET_MYPROFILE);
 
@@ -86,17 +86,10 @@ export default () => {
     e => {
       e.preventDefault();
       history.push(`/search?keyword=${search}`);
+      setSearchKeyword("");
     },
     [search]
   );
-
-  const handleMypage = useCallback(() => {
-    history.push("/mypage");
-  }, []);
-
-  const handleAddPost = useCallback(() => {
-    history.push("/post/new");
-  }, []);
 
   const handleLogout = useCallback(() => {
     if (confirm("로그아웃 하시겠습니까?")) {
@@ -127,7 +120,13 @@ export default () => {
               value={search}
               onChange={handleChangeSearch}
             />
-            {searchKeyword && <SearchResult searchKeyword={searchKeyword} />}
+            {searchKeyword && (
+              <SearchResult
+                searchKeyword={searchKeyword}
+                setSearch={setSearch}
+                setSearchKeyword={setSearchKeyword}
+              />
+            )}
           </SearchForm>
         </Column>
         <Column>
@@ -137,11 +136,20 @@ export default () => {
             </StyledAvatar>
 
             <Dropdown.Menu>
-              <Dropdown.Item eventKey="1" onClick={handleMypage}>
-                내 정보
-              </Dropdown.Item>
+              <Link pathname="/mypage">
+                <Dropdown.Item
+                  eventKey="1"
+                  onClick={() => history.push("/mypage")}
+                >
+                  내 정보
+                </Dropdown.Item>
+              </Link>
+
               <Dropdown.Divider />
-              <Dropdown.Item eventKey="2" onClick={handleAddPost}>
+              <Dropdown.Item
+                eventKey="2"
+                onClick={() => history.push("/post/new")}
+              >
                 포스트 등록
               </Dropdown.Item>
               <Dropdown.Divider />

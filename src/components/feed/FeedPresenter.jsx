@@ -2,13 +2,13 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Section from "../common/Section";
-import InfiniteScroll from "react-infinite-scroller";
 import PostContainer from "../post/PostContainer";
 import { Add } from "../icon";
 import { Carousel } from "react-bootstrap";
 import CarouselContainer from "../common/Carousel";
 import Timestamp from "../common/Timestamp";
 import SetNoticeModal from "../modal/SetNoticeContainer";
+import MoreLoader from "../common/MoreLoader";
 
 const PostWrap = styled.div`
   ${props => props.theme.smallQuery`width: 100%;`}
@@ -63,14 +63,18 @@ const NoticeWrapper = styled.div`
   margin-left: 15%;
   padding: 5px;
   text-align: center;
+  cursor: pointer;
 `;
 
 export default ({
   data: { getPosts },
-  notices,
+  loading,
   profile,
-  onShowNoticeModal,
-  onFetchMore,
+  notice,
+  notices,
+  isShowNoticeModal,
+  onShowNotice,
+  onAddNotice,
   recommandUserEl
 }) => {
   return (
@@ -80,15 +84,14 @@ export default ({
       </Helmet>
       <PostWrap>
         <Subject>최근 업로드</Subject>
-        <InfiniteScroll loadMore={onFetchMore} hasMore={false}>
-          {getPosts.length > 0 ? (
-            getPosts.map(post => <PostContainer key={post.id} {...post} />)
-          ) : (
-            <NoData>
-              <h1>게시글이 없습니다.</h1>
-            </NoData>
-          )}
-        </InfiniteScroll>
+        {getPosts.length > 0 ? (
+          getPosts.map(post => <PostContainer key={post.id} {...post} />)
+        ) : (
+          <NoData>
+            <h1>게시글이 없습니다.</h1>
+          </NoData>
+        )}
+        {loading && <MoreLoader />}
       </PostWrap>
       <UserWrap ref={recommandUserEl}>
         <aside>
@@ -98,7 +101,7 @@ export default ({
                 <span>공지사항</span>
                 <div>
                   {profile.isMaster && (
-                    <div onClick={onShowNoticeModal}>
+                    <div onClick={onAddNotice}>
                       <Add />
                     </div>
                   )}
@@ -106,11 +109,13 @@ export default ({
               </Subject>
               {notices.length > 0 ? (
                 <CarouselContainer>
-                  {notices.map(notice => (
-                    <Carousel.Item key={notice.id}>
-                      <NoticeWrapper>
-                        <div>{notice.title}</div>
-                        <Timestamp text={notice.updatedAt} />
+                  {notices.map(({ id, title, description, updatedAt }) => (
+                    <Carousel.Item key={id}>
+                      <NoticeWrapper
+                        onClick={() => onShowNotice(title, description, id)}
+                      >
+                        <div>{title}</div>
+                        <Timestamp text={updatedAt} />
                       </NoticeWrapper>
                     </Carousel.Item>
                   ))}
@@ -124,7 +129,9 @@ export default ({
           </StickyWrap>
         </aside>
       </UserWrap>
-      <SetNoticeModal />
+      {isShowNoticeModal && (
+        <SetNoticeModal {...notice} isMaster={profile.isMaster} />
+      )}
     </Section>
   );
 };

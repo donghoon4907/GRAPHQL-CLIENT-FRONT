@@ -32,6 +32,7 @@ const TextArea = styled.textarea`
   height: 200px;
   resize: none;
   font-size: 14px;
+  padding: 15px;
   background: ${props => props.theme.bgColor};
   &:focus {
     outline: none;

@@ -56,10 +56,17 @@ const link = ApolloLink.from([
   onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach(v => {
-        alert(v.message);
+        try {
+          const { message, status } = JSON.parse(v.message);
+          alert(message);
+          if (status === 401) {
+            localStorage.removeItem("token");
+            window.location.reload();
+          }
+        } catch {
+          alert(v.message);
+        }
       });
-      localStorage.removeItem("token");
-      window.location.reload();
     } else if (networkError) {
       alert("서버 점검 중입니다.");
       localStorage.removeItem("token");

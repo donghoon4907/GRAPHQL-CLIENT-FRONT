@@ -87,7 +87,7 @@ export default ({ setAction }) => {
         alert("요청 중 오류가 발생했습니다.");
       }
     },
-    [email.value, pwd.value, confirmPwd.value, nickname.value, file, loading]
+    [email.value, pwd.value, nickname.value, file, loading]
   );
 
   return (
@@ -100,10 +100,10 @@ export default ({ setAction }) => {
       preview={preview}
       fileEl={fileEl}
       confirmPwdEl={confirmPwdEl}
-      handleChangePreview={handleChangePreview}
-      handleChangeConfirmPwd={handleChangeConfirmPwd}
-      handleClickUpload={handleClickUpload}
-      handleSubmit={handleSubmit}
+      onChangePreview={handleChangePreview}
+      onChangeConfirmPwd={handleChangeConfirmPwd}
+      onClickUpload={handleClickUpload}
+      onSubmit={handleSubmit}
     />
   );
 };
