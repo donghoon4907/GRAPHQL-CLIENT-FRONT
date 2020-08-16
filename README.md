@@ -42,3 +42,8 @@
 ```
 - ssr 계획: nextjs 도입
 ```
+- 2020-08-16 fin.
+```
+- vss에서 개발 진행
+- https://github.com/donghoon4907/vss
+```
